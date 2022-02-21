@@ -1,0 +1,37 @@
+{
+  "name": "relay-router",
+  "version": "0.1.0",
+  "description": "A router that preloads data using relay.",
+  "main": "index.ts",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/N/A.git"
+  },
+  "keywords": [
+    "relay",
+    "relayjs",
+    "router",
+    "typescript"
+  ],
+  "author": "Jakob Vase <jakobvase@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/N/A/issues"
+  },
+  "homepage": "https://github.com/N/A#readme",
+  "devDependencies": {
+    "@types/react-router-config": "^5.0.6",
+    "@types/react": "^17.0.39",
+    "jest": "^27.5.1"
+  },
+  "dependencies": {
+    "history": "^5.2.0",
+    "react-router-config": "^5.1.1"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0"
+  }
+}
