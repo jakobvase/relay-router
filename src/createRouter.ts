@@ -1,27 +1,13 @@
 import { BrowserHistoryOptions, createBrowserHistory, Location } from "history";
-import { RouteMatch } from "react-router";
-import { matchRoutes, RouteObject as RRRouteConfig } from "react-router-dom";
+import { match, MatchedRoute, matchRoutes, RouteConfig } from "matchRoutes";
 import { Resource } from "./JSResource";
-
-export type RouteConfig = Omit<RRRouteConfig, "element"> & {
-  element?: Resource<React.ReactNode>;
-  prepare?: (params?: any /* url params object */) => any; //PreloadedQuery;
-};
-
-interface MatchedRoute<
-  Params extends { [K in keyof Params]?: string },
-  TRouteConfig extends RouteConfig = RouteConfig
-> {
-  route: TRouteConfig;
-  match: RouteMatch;
-}
 
 type Subscriber = (nextEntry: {
   location: Location;
   entries: {
     element: Resource<React.ReactNode> | undefined;
     prepared: any;
-    routeData: RouteMatch;
+    routeData: match;
   }[];
 }) => void;
 
@@ -81,18 +67,12 @@ export const createRouter = (
     },
     preloadCode(pathname: string) {
       // preload just the code for a route, without storing the result
-      const matches = matchRoutes(
-        routes as unknown as RRRouteConfig[],
-        pathname
-      ) as unknown as MatchedRoute<{}, RouteConfig>[];
+      const matches = matchRoutes(routes, pathname);
       matches.forEach(({ route }) => route.element?.load());
     },
     preload(pathname: string) {
       // preload the code and data for a route, without storing the result
-      const matches = matchRoutes(
-        routes as unknown as RRRouteConfig[],
-        pathname
-      ) as unknown as MatchedRoute<{}, RouteConfig>[];
+      const matches = matchRoutes(routes, pathname);
       prepareMatches(matches);
     },
     subscribe(cb: Subscriber) {
@@ -113,10 +93,7 @@ export const createRouter = (
  * Match the current location to the corresponding route entry.
  */
 function matchRoute(routes: RouteConfig[], location: Location) {
-  const matchedRoutes = matchRoutes(
-    routes as unknown as RRRouteConfig[],
-    location.pathname
-  ) as unknown as MatchedRoute<{}, RouteConfig>[];
+  const matchedRoutes = matchRoutes(routes, location.pathname);
   if (!Array.isArray(matchedRoutes) || matchedRoutes.length === 0) {
     throw new Error("No route for " + location.pathname);
   }
