@@ -1,19 +1,10 @@
 import { BrowserHistoryOptions, createBrowserHistory, Location } from "history";
-import { ComponentType } from "react";
-import { match } from "react-router";
-import {
-  matchRoutes,
-  RouteConfig as RRRouteConfig,
-  RouteConfigComponentProps,
-} from "react-router-config";
+import { RouteMatch } from "react-router";
+import { matchRoutes, RouteObject as RRRouteConfig } from "react-router-dom";
 import { Resource } from "./JSResource";
 
-export type RouteConfig = Omit<RRRouteConfig, "component"> & {
-  component?: Resource<
-    | React.ComponentType<RouteConfigComponentProps<any>>
-    | React.ComponentType
-    | undefined
-  >;
+export type RouteConfig = Omit<RRRouteConfig, "element"> & {
+  element?: Resource<React.ReactNode>;
   prepare?: (params?: any /* url params object */) => any; //PreloadedQuery;
 };
 
@@ -22,21 +13,15 @@ interface MatchedRoute<
   TRouteConfig extends RouteConfig = RouteConfig
 > {
   route: TRouteConfig;
-  match: match<Params>;
+  match: RouteMatch;
 }
 
 type Subscriber = (nextEntry: {
   location: Location;
   entries: {
-    component:
-      | Resource<
-          | ComponentType<RouteConfigComponentProps<any>>
-          | ComponentType<{}>
-          | undefined
-        >
-      | undefined;
+    element: Resource<React.ReactNode> | undefined;
     prepared: any;
-    routeData: match<{}>;
+    routeData: RouteMatch;
   }[];
 }) => void;
 
@@ -100,7 +85,7 @@ export const createRouter = (
         routes as unknown as RRRouteConfig[],
         pathname
       ) as unknown as MatchedRoute<{}, RouteConfig>[];
-      matches.forEach(({ route }) => route.component?.load());
+      matches.forEach(({ route }) => route.element?.load());
     },
     preload(pathname: string) {
       // preload the code and data for a route, without storing the result
@@ -145,10 +130,10 @@ function prepareMatches(matches: MatchedRoute<{}, RouteConfig>[]) {
   return matches.map((match) => {
     const { route, match: matchData } = match;
     const prepared = route.prepare?.(matchData.params);
-    const Component = route.component?.get();
+    const Component = route.element?.get();
     if (Component == null) {
-      route.component?.load(); // eagerly load
+      route.element?.load(); // eagerly load
     }
-    return { component: route.component, prepared, routeData: matchData };
+    return { element: route.element, prepared, routeData: matchData };
   });
 }

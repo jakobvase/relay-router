@@ -77,7 +77,7 @@ export const RouteRenderer = (props: {
   // (though we could probably just pass null children to it)
   let routeComponent = (
     <RouteComponent
-      component={firstItem.component}
+      component={firstItem.element}
       prepared={firstItem.prepared}
       routeData={firstItem.routeData}
     />
@@ -86,7 +86,7 @@ export const RouteRenderer = (props: {
     const nextItem = reversedItems[ii];
     routeComponent = (
       <RouteComponent
-        component={nextItem.component}
+        component={nextItem.element}
         prepared={nextItem.prepared}
         routeData={nextItem.routeData}
       >
