@@ -1,5 +1,4 @@
 import { Location, History } from "history";
-import { Resource } from "JSResource";
 import { Key, pathToRegexp } from "path-to-regexp";
 import React from "react";
 
@@ -44,7 +43,7 @@ export interface RouteConfigComponentProps<
 export interface RouteConfig {
   key?: React.Key | undefined;
   location?: Location | undefined;
-  element?: Resource<React.ReactNode>;
+  element?: React.JSXElementConstructor<any>;
   path?: string | string[] | undefined;
   exact?: boolean | undefined;
   strict?: boolean | undefined;
