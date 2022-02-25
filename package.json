@@ -5,7 +5,7 @@
   "main": "build/index.js",
   "scripts": {
     "test": "test",
-    "postinstall": "tsc --outDir ./build"
+    "postinstall": "tsc"
   },
   "repository": {
     "type": "git",
