@@ -2,11 +2,15 @@
   "name": "relay-router",
   "version": "0.1.0",
   "description": "A router that preloads data using relay.",
-  "main": "build/index.js",
+  "main": "dist/cjs/index.js",
+  "types": "dist/types/index.d.ts",
   "scripts": {
     "test": "test",
     "postinstall": "tsc"
   },
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jakobvase/relay-router.git"
