@@ -2,7 +2,7 @@
   "name": "relay-router",
   "version": "0.1.0",
   "description": "A router that preloads data using relay.",
-  "main": "src/index.ts",
+  "main": "build/index.js",
   "scripts": {
     "test": "test",
     "postinstall": "tsc --outDir ./build"
