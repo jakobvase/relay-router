@@ -1,12 +1,12 @@
 {
   "name": "relay-router",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "A router that preloads data using relay.",
-  "main": "dist/cjs/index.js",
-  "types": "dist/types/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "test": "test",
-    "postinstall": "tsc"
+    "prepack": "tsc"
   },
   "files": [
     "dist"
@@ -18,8 +18,7 @@
   "keywords": [
     "relay",
     "relayjs",
-    "router",
-    "typescript"
+    "router"
   ],
   "author": "Jakob Vase <jakobvase@gmail.com>",
   "license": "MIT",
