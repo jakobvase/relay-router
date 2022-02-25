@@ -1,5 +1,5 @@
 import { BrowserHistoryOptions, createBrowserHistory, Location } from "history";
-import { match, MatchedRoute, matchRoutes, RouteConfig } from "matchRoutes";
+import { match, MatchedRoute, matchRoutes, RouteConfig } from "./matchRoutes";
 
 type Subscriber = (nextEntry: {
   location: Location;
