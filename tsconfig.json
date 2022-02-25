@@ -6,9 +6,7 @@
     "moduleResolution": "Node",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "outDir": "./dist",
-    "declaration": true,
-    "declarationDir": "./dist",
+    "outDir": "./dist/cjs",
     "jsx": "react-jsx",
     "types": ["react/next"]
   },

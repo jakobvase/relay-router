@@ -2,11 +2,17 @@
   "name": "relay-router",
   "version": "0.1.3",
   "description": "A router that preloads data using relay.",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
   "scripts": {
     "test": "test",
-    "prepack": "tsc"
+    "clean": "rm -r ./dist",
+    "build:cjs": "tsc",
+    "build:esm": "tsc --module ESNEXT --outDir ./dist/esm",
+    "build:types": "tsc --outDir ./dist/types --declaration true --emitDeclarationOnly",
+    "build": "yarn run clean && yarn run build:cjs && yarn run build:esm && yarn run build:types",
+    "prepack": "yarn run build"
   },
   "files": [
     "./dist"
