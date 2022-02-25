@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useTransition, useState } from "react";
 import RoutingContext from "./RoutingContext";
-import "./RouteRenderer.css";
 import { match } from "./matchRoutes";
 
 const SUSPENSE_CONFIG = { timeoutMs: 2000 };
