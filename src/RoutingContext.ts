@@ -1,9 +1,7 @@
 import React from "react";
-import { createRouter } from "./createRouter";
+import { Context } from "./createRouter";
 
-const RoutingContext = React.createContext<
-  ReturnType<typeof createRouter>["context"]
->(null as any);
+const RoutingContext = React.createContext<Context>(null as any);
 
 /**
  * A custom context instance for our router type

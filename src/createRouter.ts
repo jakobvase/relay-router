@@ -1,4 +1,10 @@
-import { BrowserHistoryOptions, createBrowserHistory, Location } from "history";
+import {
+  BrowserHistory,
+  BrowserHistoryOptions,
+  createBrowserHistory,
+  Location,
+} from "history";
+import { JSXElementConstructor } from "react";
 import { match, MatchedRoute, matchRoutes, RouteConfig } from "./matchRoutes";
 
 type Subscriber = (nextEntry: {
@@ -10,6 +16,20 @@ type Subscriber = (nextEntry: {
   }[];
 }) => void;
 
+export type Context = {
+  history: BrowserHistory;
+  get(): {
+    location: Location;
+    entries: {
+      element: JSXElementConstructor<any> | undefined;
+      prepared: any;
+      routeData: match<{}>;
+    }[];
+  };
+  preload(pathname: string): void;
+  subscribe(cb: Subscriber): () => void;
+};
+
 /**
  * A custom router built from the same primitives as react-router. Each object in `routes`
  * contains both a Component and a prepare() function that can preload data for the component.
@@ -19,7 +39,7 @@ type Subscriber = (nextEntry: {
 export const createRouter = (
   routes: RouteConfig[],
   options?: BrowserHistoryOptions
-) => {
+): { context: Context; cleanup: () => void } => {
   // Initialize history
   const history = createBrowserHistory(options);
 
