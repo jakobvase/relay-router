@@ -11,8 +11,7 @@
     "build:cjs": "tsc",
     "build:esm": "tsc --module ESNEXT --outDir ./dist/esm",
     "build:types": "tsc --outDir ./dist/types --declaration true --emitDeclarationOnly",
-    "build": "yarn run clean && yarn run build:cjs && yarn run build:esm && yarn run build:types",
-    "prepack": "yarn run build"
+    "build": "yarn run clean && yarn run build:cjs && yarn run build:esm && yarn run build:types"
   },
   "files": [
     "./dist"
