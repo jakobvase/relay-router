@@ -15,7 +15,8 @@
     "analyze": "size-limit --why"
   },
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "repository": {
     "type": "git",
