@@ -58,7 +58,7 @@ export const useBlockTransition = ({
    * See: https://github.com/ReactTraining/history/blob/master/docs/blocking-transitions.md [v5 transition]
    */
   const handleHistoryBlock = useCallback(
-    (location, action) => {
+    (location: Update["location"], action: Update["action"]) => {
       const shouldShowPrompt = resolvePrompt({ action, location });
       if (shouldShowPrompt) {
         // show a browser prompt and warn the user of unsaved changes

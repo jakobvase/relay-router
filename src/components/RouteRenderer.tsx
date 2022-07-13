@@ -1,8 +1,14 @@
 import type { ReactElement, ReactNode } from "react";
-import { useEffect, useMemo, useCallback, useContext, useReducer } from "react";
+import {
+  useEffect,
+  useMemo,
+  useCallback,
+  useContext,
+  useReducer,
+  useTransition,
+} from "react";
 import { RouteContext } from "../context/RouteContext";
 import { RouterContext } from "../context/RouterContext";
-import { useTransition } from "../hooks/useTransition";
 import type {
   PreparedEntryWithAssist,
   PreparedEntryWithoutAssist,
