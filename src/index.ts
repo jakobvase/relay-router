@@ -1,8 +1,21 @@
-import { Link } from "./Link";
-import { RouteRenderer } from "./RouteRenderer";
-import RoutingContext from "./RoutingContext";
-import { createRouter } from "./createRouter";
-import { RouteConfig as _RouteConfig } from "./matchRoutes";
+// Components
+export { Link } from './components/Link';
+export { Redirect } from './components/Redirect';
+export { RouteRenderer } from './components/RouteRenderer';
+export { RouterProvider } from './components/RouterProvider';
 
-export type RouteConfig = _RouteConfig;
-export { createRouter, Link, RouteRenderer, RoutingContext };
+// Hooks
+export { useHistory } from './hooks/useHistory';
+export { useNavigation } from './hooks/useNavigation';
+export { useRouteProps } from './hooks/useRouteProps';
+export { useRouter } from './hooks/useRouter';
+export { useBlockTransition } from './hooks/useBlockTransition';
+
+// Utilities
+export { createBrowserRouter } from './utils/createBrowserRouter';
+export { createHashRouter } from './utils/createHashRouter';
+export { createMemoryRouter } from './utils/createMemoryRouter';
+export { SuspenseResource } from './utils/SuspenseResource';
+
+// Types
+export * from './types';

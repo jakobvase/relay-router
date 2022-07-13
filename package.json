@@ -1,49 +1,102 @@
 {
   "name": "relay-router",
-  "version": "0.1.4",
-  "description": "A router that preloads data using relay.",
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
-  "types": "./dist/types/index.d.ts",
+  "version": "0.1.5",
+  "description": "Yet another React Router.",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
   "scripts": {
-    "test": "test",
-    "clean": "rm -r ./dist",
-    "build:cjs": "tsc",
-    "build:esm": "tsc --module ESNEXT --outDir ./dist/esm",
-    "build:types": "tsc --outDir ./dist/types --declaration true --emitDeclarationOnly",
-    "build": "yarn run clean && yarn run build:cjs && yarn run build:esm && yarn run build:types"
+    "build": "yarn build:esm && yarn build:cjs",
+    "build:cjs": "node ./bin/build-cjs.js",
+    "build:esm": "yarn tsc --project tsconfig.build.json",
+    "test": "jest",
+    "lint": "eslint src",
+    "size": "size-limit",
+    "analyze": "size-limit --why"
   },
   "files": [
-    "./dist"
+    "dist"
   ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jakobvase/relay-router.git"
   },
   "keywords": [
+    "react",
+    "router",
+    "concurrent",
+    "route",
+    "routing",
+    "preloading",
+    "prefetching",
     "relay",
-    "relayjs",
-    "router"
+    "suspense",
+    "render-as-you-fetch"
   ],
-  "author": "Jakob Vase <jakobvase@gmail.com>",
+  "contributors": [
+    "Eric Taylor <eric.taylor@contra.com>",
+    "Jakob Vase <jakobvase@gmail.com>"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/jakobvase/relay-router/issues"
   },
   "homepage": "https://github.com/jakobvase/relay-router#readme",
-  "devDependencies": {
-    "@types/react": "^17.0.39",
-    "@types/react-dom": "^17.0.11",
-    "jest": "^27.5.1",
-    "react": "^18.0.0-rc.0",
-    "react-dom": "^18.0.0-rc.0"
+  "exports": {
+    "require": "./dist/cjs/index.js",
+    "import": "./dist/esm/index.js",
+    "default": "./dist/esm/index.js"
   },
-  "dependencies": {
-    "history": "^5.2.0",
-    "path-to-regexp": "^6.2.0"
+  "engines": {
+    "node": ">=12"
   },
   "peerDependencies": {
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react": ">=16.14.0"
+  },
+  "size-limit": [
+    {
+      "path": "dist/esm/index.js",
+      "limit": "10 kB"
+    },
+    {
+      "path": "dist/cjs/yarr.cjs.production.min.js",
+      "limit": "10 kB"
+    }
+  ],
+  "devDependencies": {
+    "@commitlint/cli": "^13.1.0",
+    "@commitlint/config-conventional": "^13.1.0",
+    "@size-limit/preset-small-lib": "^5.0.3",
+    "@skypack/package-check": "^0.2.2",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^12.0.0",
+    "@testing-library/react-hooks": "^7.0.2",
+    "@testing-library/user-event": "^13.2.1",
+    "@types/jest": "^27.0.1",
+    "@types/react": "^17.0.19",
+    "@types/react-dom": "^17.0.9",
+    "@typescript-eslint/eslint-plugin": "^4.30.0",
+    "@typescript-eslint/parser": "^4.30.0",
+    "esbuild": "^0.12.25",
+    "eslint": "^7.32.0",
+    "eslint-config-canonical": "^26.2.3",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-jest": "^24.4.0",
+    "eslint-plugin-typescript-sort-keys": "^1.8.0",
+    "husky": "^7.0.2",
+    "jest": "^27.1.0",
+    "jest-watch-typeahead": "^0.6.4",
+    "prettier": "^2.3.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "semantic-release": "^17.4.7",
+    "size-limit": "^5.0.3",
+    "ts-jest": "^27.0.5",
+    "typescript": "^4.4.2"
+  },
+  "dependencies": {
+    "@types/history": "^4.7.9",
+    "history": "^4.10.1",
+    "tslib": "^2.3.1"
   }
 }
