@@ -1,15 +1,15 @@
-import { act, render, screen, waitFor } from '@testing-library/react';
-import { Suspense } from 'react';
-import { RouterContext } from '../../context/RouterContext';
+import { act, render, screen, waitFor } from "@testing-library/react";
+import { Suspense } from "react";
+import { RouterContext } from "../../context/RouterContext";
 import type {
   PreparedEntryWithAssist,
   PreparedEntryWithoutAssist,
   PreparedRouteEntryProps,
   RouterContextProps,
-} from '../../types';
-import { SuspenseResource } from '../../utils/SuspenseResource';
-import { RouteRenderer } from '../RouteRenderer';
-import '@testing-library/jest-dom';
+} from "../../types";
+import { SuspenseResource } from "../../utils/SuspenseResource";
+import { RouteRenderer } from "../RouteRenderer";
+import "@testing-library/jest-dom";
 
 const initialEntry = {
   component: {
@@ -29,18 +29,18 @@ const initialEntry = {
       ),
   },
   location: {
-    hash: '',
-    pathname: '/',
-    search: '',
+    hash: "",
+    pathname: "/",
+    search: "",
   },
-  params: { baz: 'qux' },
-  preloaded: { foo: 'bar' },
-  search: { abc: '123' },
+  params: { baz: "qux" },
+  preloaded: { foo: "bar" },
+  search: { abc: "123" },
 };
 
 const assistPreloadInitialEntry = {
   ...initialEntry,
-  preloaded: new Map([['assistFoo', { data: 'assistBar', defer: true }]]),
+  preloaded: new Map([["assistFoo", { data: "assistBar", defer: true }]]),
 } as unknown as PreparedEntryWithAssist;
 
 const newRouteEntry = {
@@ -61,12 +61,12 @@ const newRouteEntry = {
       ),
   },
   location: {
-    hash: '',
-    pathname: '/new',
-    search: '',
+    hash: "",
+    pathname: "/new",
+    search: "",
   },
-  params: { user: 'eric' },
-  preloaded: { color: 'blue' },
+  params: { user: "eric" },
+  preloaded: { color: "blue" },
   search: {},
 };
 
@@ -83,7 +83,7 @@ const mockRouter: RouterContextProps = {
   get: mockRouterGet,
   getCurrentRouteKey: jest.fn(),
   history: {
-    action: 'PUSH',
+    action: "PUSH",
     block: jest.fn(),
     createHref: jest.fn(),
     go: jest.fn(),
@@ -92,10 +92,10 @@ const mockRouter: RouterContextProps = {
     length: 0,
     listen: jest.fn(),
     location: {
-      hash: '',
-      key: 'historyKey',
-      pathname: 'historyLocation',
-      search: '',
+      hash: "",
+      key: "historyKey",
+      pathname: "historyLocation",
+      search: "",
       state: undefined,
     },
     push: jest.fn(),
@@ -123,12 +123,12 @@ const renderRouteRenderer = (routerProps?: Partial<RouterContextProps>) => {
   );
 };
 
-describe('<RouteRenderer />', () => {
+describe("<RouteRenderer />", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it('should render the initial route entry component from get()', () => {
+  it("should render the initial route entry component from get()", () => {
     renderRouteRenderer();
 
     expect(mockRouterGet).toHaveBeenCalledTimes(1);
@@ -136,31 +136,31 @@ describe('<RouteRenderer />', () => {
     expect(mockRouterSubscribe).toHaveBeenCalledTimes(1);
 
     expect(
-      screen.getByRole('heading', { name: /initial route/i })
+      screen.getByRole("heading", { name: /initial route/i })
     ).toBeInTheDocument();
-    expect(screen.getByTestId('preloaded')).toHaveTextContent(
+    expect(screen.getByTestId("preloaded")).toHaveTextContent(
       JSON.stringify(initialEntry.preloaded)
     );
-    expect(screen.getByTestId('params')).toHaveTextContent(
+    expect(screen.getByTestId("params")).toHaveTextContent(
       JSON.stringify(initialEntry.params)
     );
-    expect(screen.getByTestId('search')).toHaveTextContent(
+    expect(screen.getByTestId("search")).toHaveTextContent(
       JSON.stringify(initialEntry.search)
     );
   });
 
-  it('should re-map `preloaded` props when `assistPreload`', () => {
+  it("should re-map `preloaded` props when `assistPreload`", () => {
     renderRouteRenderer({
       assistPreload: true,
       get: () => assistPreloadInitialEntry,
     });
 
-    expect(screen.getByTestId('preloaded')).toHaveTextContent(
+    expect(screen.getByTestId("preloaded")).toHaveTextContent(
       '{"assistFoo":"assistBar"}'
     );
   });
 
-  it('should suspend component while resource is resolving', async () => {
+  it("should suspend component while resource is resolving", async () => {
     expect.hasAssertions();
 
     const componentResource = new SuspenseResource(() => {
@@ -174,52 +174,52 @@ describe('<RouteRenderer />', () => {
         ({ component: componentResource } as PreparedEntryWithoutAssist),
     });
 
-    expect(screen.getByText('Suspense fallback...')).toBeInTheDocument();
-    expect(screen.queryByText('Hello world')).not.toBeInTheDocument();
+    expect(screen.getByText("Suspense fallback...")).toBeInTheDocument();
+    expect(screen.queryByText("Hello world")).not.toBeInTheDocument();
 
     await waitFor(() => {
       expect(
-        screen.queryByText('Suspense fallback...')
+        screen.queryByText("Suspense fallback...")
       ).not.toBeInTheDocument();
-      expect(screen.getByText('Hello world')).toBeInTheDocument();
+      expect(screen.getByText("Hello world")).toBeInTheDocument();
     });
   });
 
-  it('should render new entry immediately when resource already loaded', async () => {
+  it("should render new entry immediately when resource already loaded", async () => {
     expect.hasAssertions();
 
     renderRouteRenderer();
 
     expect(
-      screen.getByRole('heading', { name: /initial route/i })
+      screen.getByRole("heading", { name: /initial route/i })
     ).toBeInTheDocument();
 
     await act(async () => {
       mockRouterSubscribe.mock.calls[0][0].onTransitionStart(newRouteEntry);
     });
 
-    expect(screen.queryByText('Pending indicator...')).not.toBeInTheDocument();
+    expect(screen.queryByText("Pending indicator...")).not.toBeInTheDocument();
     expect(
-      screen.getByRole('heading', { name: /new route/i })
+      screen.getByRole("heading", { name: /new route/i })
     ).toBeInTheDocument();
-    expect(screen.getByTestId('preloaded')).toHaveTextContent(
+    expect(screen.getByTestId("preloaded")).toHaveTextContent(
       JSON.stringify(newRouteEntry.preloaded)
     );
-    expect(screen.getByTestId('params')).toHaveTextContent(
+    expect(screen.getByTestId("params")).toHaveTextContent(
       JSON.stringify(newRouteEntry.params)
     );
-    expect(screen.getByTestId('search')).toHaveTextContent(
+    expect(screen.getByTestId("search")).toHaveTextContent(
       JSON.stringify(newRouteEntry.search)
     );
   });
 
-  it('should re-map `preloaded` prop on next entry on subscription when `assistPreload` mode', async () => {
+  it("should re-map `preloaded` prop on next entry on subscription when `assistPreload` mode", async () => {
     expect.hasAssertions();
 
     const newRouteEntryWithAssistPreload = {
       ...newRouteEntry,
       preloaded: new Map([
-        ['assistTest', { data: { fruit: 'apple' }, defer: true }],
+        ["assistTest", { data: { fruit: "apple" }, defer: true }],
       ]),
     };
 
@@ -229,7 +229,7 @@ describe('<RouteRenderer />', () => {
     });
 
     expect(
-      screen.getByRole('heading', { name: /initial route/i })
+      screen.getByRole("heading", { name: /initial route/i })
     ).toBeInTheDocument();
 
     await act(async () => {
@@ -239,14 +239,14 @@ describe('<RouteRenderer />', () => {
     });
 
     expect(
-      screen.getByRole('heading', { name: /new route/i })
+      screen.getByRole("heading", { name: /new route/i })
     ).toBeInTheDocument();
-    expect(screen.getByTestId('preloaded')).toHaveTextContent(
+    expect(screen.getByTestId("preloaded")).toHaveTextContent(
       '{"fruit":"apple"}'
     );
   });
 
-  it('should dispose router subscription when unmounted', () => {
+  it("should dispose router subscription when unmounted", () => {
     const { unmount } = renderRouteRenderer();
 
     expect(mockRouterDispose).not.toHaveBeenCalled();
@@ -254,7 +254,7 @@ describe('<RouteRenderer />', () => {
     expect(mockRouterDispose).toHaveBeenCalledTimes(1);
   });
 
-  it('should render <PendingIndicator /> and current route while waiting for new route entry to resolve when `awaitComponent` mode', async () => {
+  it("should render <PendingIndicator /> and current route while waiting for new route entry to resolve when `awaitComponent` mode", async () => {
     expect.hasAssertions();
 
     const newComponentResource = new SuspenseResource(() => {
@@ -268,10 +268,10 @@ describe('<RouteRenderer />', () => {
     });
 
     expect(
-      screen.getByRole('heading', { name: /initial route/i })
+      screen.getByRole("heading", { name: /initial route/i })
     ).toBeInTheDocument();
-    expect(screen.queryByText('Pending indicator...')).not.toBeInTheDocument();
-    expect(screen.queryByText('Hello world')).not.toBeInTheDocument();
+    expect(screen.queryByText("Pending indicator...")).not.toBeInTheDocument();
+    expect(screen.queryByText("Hello world")).not.toBeInTheDocument();
 
     await act(async () => {
       mockRouterSubscribe.mock.calls[0][0].onTransitionStart({
@@ -280,16 +280,16 @@ describe('<RouteRenderer />', () => {
     });
 
     expect(
-      screen.getByRole('heading', { hidden: true, name: /initial route/i })
+      screen.getByRole("heading", { hidden: true, name: /initial route/i })
     ).toBeInTheDocument();
-    expect(screen.getByText('Pending indicator...')).toBeInTheDocument();
+    expect(screen.getByText("Pending indicator...")).toBeInTheDocument();
 
     await waitFor(() => {
-      expect(screen.getByText('Hello world')).toBeInTheDocument();
+      expect(screen.getByText("Hello world")).toBeInTheDocument();
     });
   });
 
-  it('should wait for non-deferrable preload resources on new entry when `assistPreload` mode', async () => {
+  it("should wait for non-deferrable preload resources on new entry when `assistPreload` mode", async () => {
     expect.hasAssertions();
 
     const testEntry = {
@@ -318,13 +318,13 @@ describe('<RouteRenderer />', () => {
       },
       preloaded: new Map([
         [
-          'testData',
+          "testData",
           {
             data: new SuspenseResource(
               () =>
                 new Promise((resolve) => {
                   setTimeout(() => {
-                    resolve({ animal: 'cat' });
+                    resolve({ animal: "cat" });
                   }, 100);
                 })
             ),
@@ -340,33 +340,33 @@ describe('<RouteRenderer />', () => {
     });
 
     expect(
-      screen.getByRole('heading', { name: /initial route/i })
+      screen.getByRole("heading", { name: /initial route/i })
     ).toBeInTheDocument();
-    expect(screen.queryByText('Pending indicator...')).not.toBeInTheDocument();
+    expect(screen.queryByText("Pending indicator...")).not.toBeInTheDocument();
 
     await act(async () => {
       mockRouterSubscribe.mock.calls[0][0].onTransitionStart(testEntry);
     });
 
     expect(
-      screen.getByRole('heading', { name: /initial route/i })
+      screen.getByRole("heading", { name: /initial route/i })
     ).toBeInTheDocument();
-    expect(screen.getByText('Pending indicator...')).toBeInTheDocument();
+    expect(screen.getByText("Pending indicator...")).toBeInTheDocument();
 
     await waitFor(() => {
       expect(
-        screen.getByRole('heading', { name: /test route/i })
+        screen.getByRole("heading", { name: /test route/i })
       ).toBeInTheDocument();
       expect(
-        screen.queryByText('Pending indicator...')
+        screen.queryByText("Pending indicator...")
       ).not.toBeInTheDocument();
-      expect(screen.getByTestId('preloadedData')).toHaveTextContent(
-        JSON.stringify({ animal: 'cat' })
+      expect(screen.getByTestId("preloadedData")).toHaveTextContent(
+        JSON.stringify({ animal: "cat" })
       );
     });
   });
 
-  it('should call routeTransitionCompleted when new route component is rendered', async () => {
+  it("should call routeTransitionCompleted when new route component is rendered", async () => {
     expect.hasAssertions();
     expect(mockRouteTransitionCompleted).not.toHaveBeenCalled();
 
@@ -374,24 +374,24 @@ describe('<RouteRenderer />', () => {
 
     expect(mockRouteTransitionCompleted).toHaveBeenCalledTimes(1);
     expect(mockRouteTransitionCompleted).toHaveBeenCalledWith({
-      action: 'PUSH',
+      action: "PUSH",
       location: {
-        hash: '',
-        key: 'historyKey',
-        pathname: 'historyLocation',
-        search: '',
+        hash: "",
+        key: "historyKey",
+        pathname: "historyLocation",
+        search: "",
         state: undefined,
       },
     });
 
     await act(async () => {
       mockRouterSubscribe.mock.calls[0][0].onTransitionStart(newRouteEntry, {
-        action: 'PUSH',
+        action: "PUSH",
         location: {
-          hash: 'test',
-          key: 'newLocation',
-          pathname: 'newLocation',
-          search: '',
+          hash: "test",
+          key: "newLocation",
+          pathname: "newLocation",
+          search: "",
           state: null,
         },
       });
@@ -399,18 +399,18 @@ describe('<RouteRenderer />', () => {
 
     expect(mockRouteTransitionCompleted).toHaveBeenCalledTimes(2);
     expect(mockRouteTransitionCompleted).toHaveBeenCalledWith({
-      action: 'PUSH',
+      action: "PUSH",
       location: {
-        hash: 'test',
-        key: 'newLocation',
-        pathname: 'newLocation',
-        search: '',
+        hash: "test",
+        key: "newLocation",
+        pathname: "newLocation",
+        search: "",
         state: null,
       },
     });
   });
 
-  it('should call routeTransitionCompleted only after suspense has finished', async () => {
+  it("should call routeTransitionCompleted only after suspense has finished", async () => {
     expect.hasAssertions();
     expect(mockRouteTransitionCompleted).not.toHaveBeenCalled();
 
@@ -425,40 +425,40 @@ describe('<RouteRenderer />', () => {
         ({
           component: componentResource,
           location: {
-            hash: '#test',
-            pathname: '/new-route',
-            search: '?test=foo',
+            hash: "#test",
+            pathname: "/new-route",
+            search: "?test=foo",
           },
         } as unknown as PreparedEntryWithoutAssist),
       history: {
         ...mockRouter.history,
         location: {
-          hash: '#test',
-          key: 'test',
-          pathname: '/new-route',
-          search: '?test=foo',
+          hash: "#test",
+          key: "test",
+          pathname: "/new-route",
+          search: "?test=foo",
           state: undefined,
         },
       },
     });
 
     expect(mockRouteTransitionCompleted).not.toHaveBeenCalled();
-    expect(screen.getByText('Suspense fallback...')).toBeInTheDocument();
-    expect(screen.queryByText('Hello world')).not.toBeInTheDocument();
+    expect(screen.getByText("Suspense fallback...")).toBeInTheDocument();
+    expect(screen.queryByText("Hello world")).not.toBeInTheDocument();
 
     await waitFor(() => {
       expect(
-        screen.queryByText('Suspense fallback...')
+        screen.queryByText("Suspense fallback...")
       ).not.toBeInTheDocument();
-      expect(screen.getByText('Hello world')).toBeInTheDocument();
+      expect(screen.getByText("Hello world")).toBeInTheDocument();
       expect(mockRouteTransitionCompleted).toHaveBeenCalledTimes(1);
       expect(mockRouteTransitionCompleted).toHaveBeenCalledWith({
-        action: 'PUSH',
+        action: "PUSH",
         location: {
-          hash: '#test',
-          key: 'test',
-          pathname: '/new-route',
-          search: '?test=foo',
+          hash: "#test",
+          key: "test",
+          pathname: "/new-route",
+          search: "?test=foo",
           state: undefined,
         },
       });

@@ -12,9 +12,9 @@ import type {
   // State,
   // To,
   // Update,
-} from 'history';
-import type { ComponentType } from 'react';
-import type { SuspenseResource } from './utils/SuspenseResource';
+} from "history";
+import type { ComponentType } from "react";
+import type { SuspenseResource } from "./utils/SuspenseResource";
 
 // HISTORY TYPES
 // --------------------------------------------------
@@ -151,7 +151,7 @@ export type RoutesConfig = readonly RouteConfig[];
 
 export type RouteEntry<AssistMode extends boolean = boolean> = Omit<
   RouteConfig<string, string, PreparedRouteEntryProps<AssistMode>, AssistMode>,
-  'component' | 'path'
+  "component" | "path"
 > & {
   component: SuspenseResource<ComponentType<PreparedRouteEntryProps>>;
 };
@@ -194,7 +194,7 @@ export interface RouterOptions<Routes extends RoutesConfig> {
 
 export type LoggerFunction = (details: {
   context?: object;
-  level: 'debug' | 'error' | 'info' | 'trace' | 'warn';
+  level: "debug" | "error" | "info" | "trace" | "warn";
   message: string;
   scope: string;
 }) => void;

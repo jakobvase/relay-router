@@ -1,19 +1,19 @@
-import type { ReactElement, ReactNode } from 'react';
-import { useEffect, useMemo, useCallback, useContext, useReducer } from 'react';
-import { RouteContext } from '../context/RouteContext';
-import { RouterContext } from '../context/RouterContext';
-import { useTransition } from '../hooks/useTransition';
+import type { ReactElement, ReactNode } from "react";
+import { useEffect, useMemo, useCallback, useContext, useReducer } from "react";
+import { RouteContext } from "../context/RouteContext";
+import { RouterContext } from "../context/RouterContext";
+import { useTransition } from "../hooks/useTransition";
 import type {
   PreparedEntryWithAssist,
   PreparedEntryWithoutAssist,
   PreparedRouteEntry,
-} from '../types';
-import type { SuspenseResource } from '../utils/SuspenseResource';
+} from "../types";
+import type { SuspenseResource } from "../utils/SuspenseResource";
 import {
   isAssistedPreparedEntry,
   isEntryPreloadedMap,
-} from '../utils/prepareMatch';
-import { reducer } from './reducer';
+} from "../utils/prepareMatch";
+import { reducer } from "./reducer";
 
 /**
  * Used only on the initial render.
@@ -122,9 +122,9 @@ export const RouteRenderer = ({
   // Subscribe to route changes and update the route entry.
   useEffect(() => {
     logger({
-      level: 'debug',
-      message: 'RouteRenderer setting up subscription to router',
-      scope: 'RouteRenderer',
+      level: "debug",
+      message: "RouteRenderer setting up subscription to router",
+      scope: "RouteRenderer",
     });
 
     const dispose = subscribe({
@@ -133,12 +133,12 @@ export const RouteRenderer = ({
           context: {
             update,
           },
-          level: 'info',
+          level: "info",
           message: `Starting route transition for next entry`,
-          scope: 'RouteRenderer:onTransitionStart',
+          scope: "RouteRenderer:onTransitionStart",
         });
 
-        dispatch({ type: 'START_ROUTE_TRANSITION' });
+        dispatch({ type: "START_ROUTE_TRANSITION" });
 
         // When `awaitComponent` is true, we await the new component to load before updating the route entry.
         // This effectively means that a route transition will not cause a suspense fallback to occur.
@@ -147,17 +147,17 @@ export const RouteRenderer = ({
         // So there is no concern of waiting on the component to start the preloading process.
         if (awaitComponent) {
           logger({
-            level: 'trace',
+            level: "trace",
             message: `Awaiting component code for next route entry.`,
-            scope: 'RouteRenderer:onTransitionStart',
+            scope: "RouteRenderer:onTransitionStart",
           });
 
           await nextEntry.component.load();
 
           logger({
-            level: 'trace',
+            level: "trace",
             message: `Completed loading of next entry component code resource.`,
-            scope: 'RouteRenderer:onTransitionStart',
+            scope: "RouteRenderer:onTransitionStart",
           });
         }
 
@@ -183,14 +183,14 @@ export const RouteRenderer = ({
             context: {
               update,
             },
-            level: 'info',
+            level: "info",
             message: `Finalizing route transition for next entry`,
-            scope: 'RouteRenderer:onTransitionStart',
+            scope: "RouteRenderer:onTransitionStart",
           });
 
           dispatch({
             payload: { historyUpdate: update, routeEntry: newRouteEntry },
-            type: 'FINISH_ROUTE_TRANSITION',
+            type: "FINISH_ROUTE_TRANSITION",
           });
         });
       },
@@ -200,9 +200,9 @@ export const RouteRenderer = ({
 
     return () => {
       logger({
-        level: 'trace',
-        message: 'RouteRenderer disposing subscription to router',
-        scope: 'RouteRenderer',
+        level: "trace",
+        message: "RouteRenderer disposing subscription to router",
+        scope: "RouteRenderer",
       });
 
       dispose();
@@ -222,9 +222,9 @@ export const RouteRenderer = ({
       context: {
         update: historyUpdate,
       },
-      level: 'trace',
+      level: "trace",
       message: `Calling 'routeTransitionComplete' for new history update. New route is rendered.`,
-      scope: 'RouteRenderer',
+      scope: "RouteRenderer",
     });
 
     routeTransitionCompleted(historyUpdate);
@@ -246,4 +246,4 @@ export const RouteRenderer = ({
   );
 };
 
-RouteRenderer.displayName = 'RouteRenderer';
+RouteRenderer.displayName = "RouteRenderer";

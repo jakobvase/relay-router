@@ -1,18 +1,18 @@
-import type { MatchedRoute } from '../../types';
+import type { MatchedRoute } from "../../types";
 // import SuspenseResource from '../SuspenseResource';
-import { prepareMatch } from '../prepareMatch';
+import { prepareMatch } from "../prepareMatch";
 
-jest.mock('../SuspenseResource', () => ({
+jest.mock("../SuspenseResource", () => ({
   SuspenseResource: jest.fn().mockImplementation((componentName) => ({
     load: jest.fn(),
     read: jest.fn().mockReturnValue(`mock${componentName}`),
   })),
 }));
 
-describe('prepareMatch()', () => {
-  it('should return prepared match without preload data', () => {
+describe("prepareMatch()", () => {
+  it("should return prepared match without preload data", () => {
     const match = {
-      location: { pathname: 'matchedLocation' },
+      location: { pathname: "matchedLocation" },
       params: {},
       route: {
         component: { load: jest.fn() },
@@ -33,15 +33,15 @@ describe('prepareMatch()', () => {
     });
   });
 
-  it('should return prepared match and preload data', () => {
+  it("should return prepared match and preload data", () => {
     const match = {
-      location: { pathname: 'matchedLocation' },
-      params: { foo: 'bar' },
+      location: { pathname: "matchedLocation" },
+      params: { foo: "bar" },
       route: {
         component: { load: jest.fn() },
-        preload: jest.fn().mockReturnValue('prefetchedData'),
+        preload: jest.fn().mockReturnValue("prefetchedData"),
       },
-      search: { baz: 'qux' },
+      search: { baz: "qux" },
     } as unknown as MatchedRoute;
 
     const preparedMatch = prepareMatch(match);
@@ -58,15 +58,15 @@ describe('prepareMatch()', () => {
       component: match.route.component,
       location: match.location,
       params: match.params,
-      preloaded: 'prefetchedData',
+      preloaded: "prefetchedData",
       search: match.search,
     });
   });
 
-  it('should return prepared match with assistPreload true and no preload data', () => {
+  it("should return prepared match with assistPreload true and no preload data", () => {
     const match = {
-      location: { pathname: 'matchedLocation' },
-      params: { foo: 'bar' },
+      location: { pathname: "matchedLocation" },
+      params: { foo: "bar" },
       route: {
         component: { load: jest.fn() },
       },
@@ -86,18 +86,18 @@ describe('prepareMatch()', () => {
     });
   });
 
-  it('should return prepared match with assistPreload true and with preload data', () => {
+  it("should return prepared match with assistPreload true and with preload data", () => {
     const match = {
-      location: { pathname: 'matchedLocation' },
-      params: { foo: 'bar' },
+      location: { pathname: "matchedLocation" },
+      params: { foo: "bar" },
       route: {
         component: { load: jest.fn() },
         preload: jest.fn().mockReturnValue({
-          bar: { data: () => 'preloadedBar', defer: false },
-          foo: () => 'preloadedFoo',
+          bar: { data: () => "preloadedBar", defer: false },
+          foo: () => "preloadedFoo",
         }),
       },
-      search: { baz: 'qux' },
+      search: { baz: "qux" },
     } as unknown as MatchedRoute;
 
     const preparedMatch = prepareMatch(match, true);
@@ -116,14 +116,14 @@ describe('prepareMatch()', () => {
       params: match.params,
       preloaded: new Map([
         [
-          'foo',
+          "foo",
           {
             data: { load: expect.any(Function), read: expect.any(Function) },
             defer: true,
           },
         ],
         [
-          'bar',
+          "bar",
           {
             data: { load: expect.any(Function), read: expect.any(Function) },
             defer: false,
@@ -134,28 +134,28 @@ describe('prepareMatch()', () => {
     });
 
     expect(
-      preparedMatch.preloaded?.get('foo')?.data.load
+      preparedMatch.preloaded?.get("foo")?.data.load
     ).toHaveBeenCalledTimes(1);
     expect(
-      preparedMatch.preloaded?.get('foo')?.data.load
+      preparedMatch.preloaded?.get("foo")?.data.load
     ).toHaveBeenCalledWith();
     expect(
-      preparedMatch.preloaded?.get('bar')?.data.load
+      preparedMatch.preloaded?.get("bar")?.data.load
     ).toHaveBeenCalledTimes(1);
     expect(
-      preparedMatch.preloaded?.get('bar')?.data.load
+      preparedMatch.preloaded?.get("bar")?.data.load
     ).toHaveBeenCalledWith();
   });
 
-  it('should return prepared match with assistPreload true and awaitPreload true', () => {
+  it("should return prepared match with assistPreload true and awaitPreload true", () => {
     const match = {
-      location: { pathname: 'matchedLocation' },
-      params: { baz: 'qux', foo: 'bar' },
+      location: { pathname: "matchedLocation" },
+      params: { baz: "qux", foo: "bar" },
       route: {
         component: { load: jest.fn() },
         preload: jest.fn().mockReturnValue({
-          bar: () => 'preloadedBar',
-          foo: { data: () => 'preloadedFoo', defer: true },
+          bar: () => "preloadedBar",
+          foo: { data: () => "preloadedFoo", defer: true },
         }),
       },
       search: {},
@@ -177,14 +177,14 @@ describe('prepareMatch()', () => {
       params: match.params,
       preloaded: new Map([
         [
-          'foo',
+          "foo",
           {
             data: { load: expect.any(Function), read: expect.any(Function) },
             defer: true,
           },
         ],
         [
-          'bar',
+          "bar",
           {
             data: { load: expect.any(Function), read: expect.any(Function) },
             defer: false,
@@ -195,44 +195,44 @@ describe('prepareMatch()', () => {
     });
 
     expect(
-      preparedMatch.preloaded?.get('bar')?.data.load
+      preparedMatch.preloaded?.get("bar")?.data.load
     ).toHaveBeenCalledTimes(1);
     expect(
-      preparedMatch.preloaded?.get('bar')?.data.load
+      preparedMatch.preloaded?.get("bar")?.data.load
     ).toHaveBeenCalledWith();
     expect(
-      preparedMatch.preloaded?.get('foo')?.data.load
+      preparedMatch.preloaded?.get("foo")?.data.load
     ).toHaveBeenCalledTimes(1);
     expect(
-      preparedMatch.preloaded?.get('foo')?.data.load
+      preparedMatch.preloaded?.get("foo")?.data.load
     ).toHaveBeenCalledWith();
   });
 
-  it('should return cached match when route is the same as last run and assistPreload is true', () => {
+  it("should return cached match when route is the same as last run and assistPreload is true", () => {
     const firstMatch = {
-      location: { pathname: 'consecutiveMatch' },
-      params: { baz: 'qux', foo: 'bar' },
+      location: { pathname: "consecutiveMatch" },
+      params: { baz: "qux", foo: "bar" },
       route: {
         component: { load: jest.fn() },
         preload: jest.fn().mockReturnValue({
-          bar: () => 'preloadedBar',
-          foo: { data: () => 'preloadedFoo', defer: true },
+          bar: () => "preloadedBar",
+          foo: { data: () => "preloadedFoo", defer: true },
         }),
       },
-      search: { search: 'search' },
+      search: { search: "search" },
     } as unknown as MatchedRoute;
 
     const secondMatch = {
-      location: { pathname: 'consecutiveMatch' },
-      params: { baz: 'qux', foo: 'bar' },
+      location: { pathname: "consecutiveMatch" },
+      params: { baz: "qux", foo: "bar" },
       route: {
         component: { load: jest.fn() },
         preload: jest.fn().mockReturnValue({
-          bar: () => 'preloadedBar',
-          foo: { data: () => 'preloadedFoo', defer: true },
+          bar: () => "preloadedBar",
+          foo: { data: () => "preloadedFoo", defer: true },
         }),
       },
-      search: { search: 'search' },
+      search: { search: "search" },
     } as unknown as MatchedRoute;
 
     const firstPreparedEntry = prepareMatch(firstMatch, true, true);
@@ -251,14 +251,14 @@ describe('prepareMatch()', () => {
       params: firstMatch.params,
       preloaded: new Map([
         [
-          'foo',
+          "foo",
           {
             data: { load: expect.any(Function), read: expect.any(Function) },
             defer: true,
           },
         ],
         [
-          'bar',
+          "bar",
           {
             data: { load: expect.any(Function), read: expect.any(Function) },
             defer: false,
@@ -270,16 +270,16 @@ describe('prepareMatch()', () => {
 
     // Called only one is previous test.
     expect(
-      firstPreparedEntry.preloaded?.get('bar')?.data.load
+      firstPreparedEntry.preloaded?.get("bar")?.data.load
     ).toHaveBeenCalledTimes(1);
     expect(
-      firstPreparedEntry.preloaded?.get('bar')?.data.load
+      firstPreparedEntry.preloaded?.get("bar")?.data.load
     ).toHaveBeenCalledWith();
     expect(
-      firstPreparedEntry.preloaded?.get('foo')?.data.load
+      firstPreparedEntry.preloaded?.get("foo")?.data.load
     ).toHaveBeenCalledTimes(1);
     expect(
-      firstPreparedEntry.preloaded?.get('foo')?.data.load
+      firstPreparedEntry.preloaded?.get("foo")?.data.load
     ).toHaveBeenCalledWith();
   });
 });

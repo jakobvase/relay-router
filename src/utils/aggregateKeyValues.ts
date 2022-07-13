@@ -7,7 +7,7 @@ export const aggregateKeyValues = <
 >(
   list: List,
   key: string,
-  value = ''
+  value = ""
 ): string[] | string => {
   const decodedValue = decodeURIComponent(value);
 

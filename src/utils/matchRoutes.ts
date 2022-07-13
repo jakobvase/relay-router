@@ -1,7 +1,7 @@
-import type { HistoryPath, MatchedRoute, RoutesEntryMap } from '../types';
-import { matchRegexRoute } from './matchRegexRoute';
-import { pathStringToPath } from './pathStringToPath';
-import { queryStringToObject } from './queryStringToObject';
+import type { HistoryPath, MatchedRoute, RoutesEntryMap } from "../types";
+import { matchRegexRoute } from "./matchRegexRoute";
+import { pathStringToPath } from "./pathStringToPath";
+import { queryStringToObject } from "./queryStringToObject";
 
 /**
  * Matches a requested location to a route via a Map of routes.
@@ -19,11 +19,11 @@ export const matchRoutes = (
 
   let parameters: Record<string, string> = {};
   const searchParameters = {
-    ...queryStringToObject(locationToMatch.search ?? ''),
+    ...queryStringToObject(locationToMatch.search ?? ""),
   };
 
   if (!pathname) {
-    throw new Error('Unable to determine pathname from given location');
+    throw new Error("Unable to determine pathname from given location");
   }
 
   // First we try to match the pathname without regex (applies to routes without named parameters or wildcards)
@@ -34,7 +34,7 @@ export const matchRoutes = (
     // If we didn't find a direct match, we try to match the pathname with regex
     // (applies to routes with named parameters or wildcards)
     for (const [path, route] of routes.entries()) {
-      if (path !== '/*') {
+      if (path !== "/*") {
         const match = matchRegexRoute(path, pathname);
         if (!match) continue;
 
@@ -51,7 +51,7 @@ export const matchRoutes = (
   // This should hopefully never happen since we have earlier checks to verify a catch-all route exists.
   if (!matchedRoute) {
     throw new Error(
-      'No route found for requested path. Ensure you have a wildcard (*) route to catch-all non-matching paths.'
+      "No route found for requested path. Ensure you have a wildcard (*) route to catch-all non-matching paths."
     );
   }
 

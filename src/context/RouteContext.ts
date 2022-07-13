@@ -1,5 +1,5 @@
-import { createContext } from 'react';
-import type { PreparedRouteEntryProps } from '../types';
+import { createContext } from "react";
+import type { PreparedRouteEntryProps } from "../types";
 
 const defaultContext: PreparedRouteEntryProps = {
   params: {},

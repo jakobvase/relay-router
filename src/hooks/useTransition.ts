@@ -12,7 +12,7 @@
  * not be able to keep the previous route rendered when the new route suspenses awaiting data,
  * instead you will render the parent suspense boundary, which _can_ lead to awkward UX.
  */
-import React, { useCallback } from 'react';
+import React, { useCallback } from "react";
 
 // @ts-expect-error - useTransition is only available in React v18, which is not yet released.
 const { useTransition: builtInAPI } = React;
@@ -25,14 +25,14 @@ const useTransitionShim = (): [
   isPending: boolean,
   startTransition: (callback: TransitionFunction) => void
 ] => {
-  if (process.env['NODE_ENV'] !== 'production' && !didWarnOfShimUsage) {
+  if (process.env["NODE_ENV"] !== "production" && !didWarnOfShimUsage) {
     didWarnOfShimUsage = true;
     // eslint-disable-next-line no-console
     console.warn(
-      'You are using a version of React without useTransition support.' +
-        'While yarr will still work, yarr will not be able to keep' +
-        'new routes with preloaded data that causes suspension from transitioning' +
-        'until the data has loaded.'
+      "You are using a version of React without useTransition support." +
+        "While yarr will still work, yarr will not be able to keep" +
+        "new routes with preloaded data that causes suspension from transitioning" +
+        "until the data has loaded."
     );
   }
 

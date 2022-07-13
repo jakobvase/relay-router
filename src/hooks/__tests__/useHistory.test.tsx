@@ -1,8 +1,8 @@
-import { renderHook } from '@testing-library/react-hooks';
-import type { ReactNode } from 'react';
-import { RouterProvider } from '../../components/RouterProvider';
-import type { RouterContextProps } from '../../types';
-import { useHistory } from '../useHistory';
+import { renderHook } from "@testing-library/react-hooks";
+import type { ReactNode } from "react";
+import { RouterProvider } from "../../components/RouterProvider";
+import type { RouterContextProps } from "../../types";
+import { useHistory } from "../useHistory";
 
 const ContextWrapper = ({ children }: { children: ReactNode }) => {
   return (
@@ -10,9 +10,9 @@ const ContextWrapper = ({ children }: { children: ReactNode }) => {
       router={
         {
           history: {
-            action: 'mockHistoryAction',
-            listen: 'mockHistoryListen',
-            location: 'mockHistoryLocation',
+            action: "mockHistoryAction",
+            listen: "mockHistoryListen",
+            location: "mockHistoryLocation",
           },
         } as unknown as RouterContextProps
       }
@@ -22,24 +22,24 @@ const ContextWrapper = ({ children }: { children: ReactNode }) => {
   );
 };
 
-describe('useHistory()', () => {
-  it('should throw an error when called outside of provider', () => {
+describe("useHistory()", () => {
+  it("should throw an error when called outside of provider", () => {
     const { result } = renderHook(() => useHistory());
 
     expect(result.error?.message).toBe(
-      '`useHistory` can not be used outside of `RouterProvider`.'
+      "`useHistory` can not be used outside of `RouterProvider`."
     );
   });
 
-  it('should return expected router object', () => {
+  it("should return expected router object", () => {
     const { result } = renderHook(() => useHistory(), {
       wrapper: ContextWrapper,
     });
 
     expect(result.current).toEqual({
-      action: 'mockHistoryAction',
-      listen: 'mockHistoryListen',
-      location: 'mockHistoryLocation',
+      action: "mockHistoryAction",
+      listen: "mockHistoryListen",
+      location: "mockHistoryLocation",
     });
   });
 });

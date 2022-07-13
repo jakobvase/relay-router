@@ -26,6 +26,6 @@ export const sortAndStringifySearchParameters = (
             .join(`&${parameterValue}=`)
         : encodeURIComponent(rawValue);
 
-      return `${identifier}${identifier ? '&' : '?'}${parameterValue}=${value}`;
-    }, '');
+      return `${identifier}${identifier ? "&" : "?"}${parameterValue}=${value}`;
+    }, "");
 };

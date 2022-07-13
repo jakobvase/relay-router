@@ -3,9 +3,9 @@ import type {
   RouteEntry,
   RoutesConfig,
   RoutesEntryMap,
-} from '../types';
-import { SuspenseResource } from './SuspenseResource';
-import { getCanonicalPath } from './getCanonicalPath';
+} from "../types";
+import { SuspenseResource } from "./SuspenseResource";
+import { getCanonicalPath } from "./getCanonicalPath";
 
 /**
  * We create a Map from the routes array so we can optimistically perform matches with O(1) complexity.
@@ -20,11 +20,11 @@ export const routesToEntryMap = (routes: RoutesConfig): RoutesEntryMap => {
   ) =>
     inputRoutes.forEach((route) => {
       const { path, children, ...routeProps } = route;
-      const { path: parentPath = '', redirectRules } = parentRoute ?? {};
+      const { path: parentPath = "", redirectRules } = parentRoute ?? {};
 
-      const parentCanonicalPath = parentPath === '/' ? '' : parentPath;
-      const routeCanonicalPath = path ? getCanonicalPath(path) : '';
-      const canonicalPath = [parentCanonicalPath, routeCanonicalPath].join('');
+      const parentCanonicalPath = parentPath === "/" ? "" : parentPath;
+      const routeCanonicalPath = path ? getCanonicalPath(path) : "";
+      const canonicalPath = [parentCanonicalPath, routeCanonicalPath].join("");
 
       const routeEntry: RouteEntry = {
         redirectRules,
@@ -46,7 +46,7 @@ export const routesToEntryMap = (routes: RoutesConfig): RoutesEntryMap => {
 
   routesIterator(routes);
 
-  if (process.env['NODE_ENV'] !== 'production' && !routesEntryMap.has('/*')) {
+  if (process.env["NODE_ENV"] !== "production" && !routesEntryMap.has("/*")) {
     // eslint-disable-next-line no-console
     console.warn(
       `You didn't set a wildcard (*) route to catch any unmatched path.

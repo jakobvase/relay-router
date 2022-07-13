@@ -5,12 +5,12 @@ import type {
   RouterSubscriptionHistoryCallback,
   RouterSubscriptionTransitionCallback,
   Update,
-} from '../types';
-import { locationsMatch } from './locationsMatch';
-import { matchRoutes } from './matchRoutes';
-import { pathStringToPath } from './pathStringToPath';
-import { prepareMatch } from './prepareMatch';
-import { routesToEntryMap } from './routesToEntryMap';
+} from "../types";
+import { locationsMatch } from "./locationsMatch";
+import { matchRoutes } from "./matchRoutes";
+import { pathStringToPath } from "./pathStringToPath";
+import { prepareMatch } from "./prepareMatch";
+import { routesToEntryMap } from "./routesToEntryMap";
 
 /**
  * Creates a router from a passed in history type (Browser, Hash, or Memory)
@@ -27,9 +27,9 @@ export const createRouter = <Routes extends RoutesConfig>({
 }: CreateRouterOptions<Routes>): RouterProps => {
   logger({
     context: { assistPreload, awaitComponent, awaitPreload },
-    level: 'info',
-    message: 'Router initalizing',
-    scope: 'router',
+    level: "info",
+    message: "Router initalizing",
+    scope: "router",
   });
 
   const routesEntryMap = routesToEntryMap(routes);
@@ -41,10 +41,10 @@ export const createRouter = <Routes extends RoutesConfig>({
   if (!locationsMatch(entryMatch.location, history.location, true)) {
     // Entry path has redirected, update history
     logger({
-      level: 'info',
+      level: "info",
       message:
-        'Initial router entry match does not match current history location. Replacing history location.',
-      scope: 'router',
+        "Initial router entry match does not match current history location. Replacing history location.",
+      scope: "router",
     });
 
     history.replace(entryMatch.location);
@@ -67,10 +67,10 @@ export const createRouter = <Routes extends RoutesConfig>({
           currentEntryLocation: currentEntry.location,
           location,
         },
-        level: 'debug',
+        level: "debug",
         message:
-          'New history location matches existing route entry. Ignoring event. Subscribers will not be notified.',
-        scope: 'router:listen',
+          "New history location matches existing route entry. Ignoring event. Subscribers will not be notified.",
+        scope: "router:listen",
       });
 
       return;
@@ -85,10 +85,10 @@ export const createRouter = <Routes extends RoutesConfig>({
           location,
           matchLocation: match.location,
         },
-        level: 'debug',
+        level: "debug",
         message:
-          'Matched location and history location do not match, replacing history state',
-        scope: 'router:listen',
+          "Matched location and history location do not match, replacing history state",
+        scope: "router:listen",
       });
 
       history.replace(match.location);
@@ -100,9 +100,9 @@ export const createRouter = <Routes extends RoutesConfig>({
     currentEntry = nextEntry;
 
     logger({
-      level: 'debug',
+      level: "debug",
       message: `Next route entry is set for match key ${currentRouteKey}, notifying subscribers`,
-      scope: 'router:listen',
+      scope: "router:listen",
     });
 
     subscribers.forEach(([historyCallback]) =>
@@ -115,9 +115,9 @@ export const createRouter = <Routes extends RoutesConfig>({
       context: {
         update: historyUpdate,
       },
-      level: 'debug',
-      message: 'Route transition completed. Notifying subscribers',
-      scope: 'router',
+      level: "debug",
+      message: "Route transition completed. Notifying subscribers",
+      scope: "router",
     });
 
     subscribers.forEach(([, transitionCallback]) =>
@@ -140,9 +140,9 @@ export const createRouter = <Routes extends RoutesConfig>({
         context: {
           to,
         },
-        level: 'debug',
+        level: "debug",
         message: `Preloading code for '${path.pathname}' path`,
-        scope: 'router:preloadCode',
+        scope: "router:preloadCode",
       });
 
       try {
@@ -156,9 +156,9 @@ export const createRouter = <Routes extends RoutesConfig>({
           context: {
             error,
           },
-          level: 'error',
+          level: "error",
           message: `Error when preloading code for '${path.pathname}' path. See context for error.`,
-          scope: 'router:preloadCode',
+          scope: "router:preloadCode",
         });
       }
     },
@@ -181,9 +181,9 @@ export const createRouter = <Routes extends RoutesConfig>({
         context: {
           to,
         },
-        level: 'debug',
+        level: "debug",
         message: `Warming route for '${path.pathname}' path`,
-        scope: 'router:warmRoute',
+        scope: "router:warmRoute",
       });
 
       try {
@@ -197,9 +197,9 @@ export const createRouter = <Routes extends RoutesConfig>({
           context: {
             error,
           },
-          level: 'error',
+          level: "error",
           message: `Error when warming route for '${path.pathname}' path. See context for error.`,
-          scope: 'router:warmRoute',
+          scope: "router:warmRoute",
         });
       }
     },

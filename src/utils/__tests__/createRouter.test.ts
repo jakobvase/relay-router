@@ -1,32 +1,32 @@
-import { createMemoryHistory } from 'history';
-import type { CreateRouterOptions, RoutesConfig, State } from '../../types';
-import { createRouter } from '../createRouter';
-import { locationsMatch } from '../locationsMatch';
-import { matchRoutes } from '../matchRoutes';
-import { prepareMatch } from '../prepareMatch';
-import { routesToEntryMap } from '../routesToEntryMap';
+import { createMemoryHistory } from "history";
+import type { CreateRouterOptions, RoutesConfig, State } from "../../types";
+import { createRouter } from "../createRouter";
+import { locationsMatch } from "../locationsMatch";
+import { matchRoutes } from "../matchRoutes";
+import { prepareMatch } from "../prepareMatch";
+import { routesToEntryMap } from "../routesToEntryMap";
 
-jest.mock('../routesToEntryMap', () => ({
-  routesToEntryMap: jest.fn(() => 'routesEntryMap'),
+jest.mock("../routesToEntryMap", () => ({
+  routesToEntryMap: jest.fn(() => "routesEntryMap"),
 }));
 
 const componentLoadMock = jest.fn();
 
-jest.mock('../matchRoutes', () => ({
+jest.mock("../matchRoutes", () => ({
   matchRoutes: jest.fn(() => ({
-    location: 'matchedLocation',
+    location: "matchedLocation",
     route: { component: { load: componentLoadMock } },
   })),
 }));
 
-jest.mock('../prepareMatch', () => ({
+jest.mock("../prepareMatch", () => ({
   prepareMatch: jest.fn(() => ({
     component: { load: componentLoadMock },
-    location: 'preparedLocation',
+    location: "preparedLocation",
   })),
 }));
 
-jest.mock('../locationsMatch', () => ({
+jest.mock("../locationsMatch", () => ({
   locationsMatch: jest.fn(() => true),
 }));
 
@@ -36,13 +36,13 @@ const mockPrepareMatch = prepareMatch as unknown as jest.Mock<{
   location: string;
 }>;
 
-describe('createRouter()', () => {
+describe("createRouter()", () => {
   const defaultRouterOptions: CreateRouterOptions<RoutesConfig> = {
     assistPreload: true,
     awaitComponent: true,
     awaitPreload: false,
     history: {
-      action: 'PUSH',
+      action: "PUSH",
       block: jest.fn(),
       createHref: jest.fn(),
       go: jest.fn(),
@@ -51,10 +51,10 @@ describe('createRouter()', () => {
       length: 0,
       listen: jest.fn(),
       location: {
-        hash: '',
-        key: 'historyKey',
-        pathname: 'historyLocation',
-        search: '',
+        hash: "",
+        key: "historyKey",
+        pathname: "historyLocation",
+        search: "",
         state: undefined,
       },
       push: jest.fn(),
@@ -63,11 +63,11 @@ describe('createRouter()', () => {
     routes: [
       {
         component: jest.fn(),
-        path: 'foo',
+        path: "foo",
       },
       {
         component: jest.fn(),
-        path: '*',
+        path: "*",
       },
     ],
   };
@@ -76,7 +76,7 @@ describe('createRouter()', () => {
     jest.clearAllMocks();
   });
 
-  it('should run the expected functions when called', () => {
+  it("should run the expected functions when called", () => {
     createRouter(defaultRouterOptions);
 
     expect(routesToEntryMap).toHaveBeenCalledTimes(1);
@@ -84,14 +84,14 @@ describe('createRouter()', () => {
 
     expect(matchRoutes).toHaveBeenCalledTimes(1);
     expect(matchRoutes).toHaveBeenCalledWith(
-      'routesEntryMap',
+      "routesEntryMap",
       defaultRouterOptions.history.location
     );
 
     expect(prepareMatch).toHaveBeenCalledTimes(1);
     expect(prepareMatch).toHaveBeenCalledWith(
       {
-        location: 'matchedLocation',
+        location: "matchedLocation",
         route: { component: { load: expect.any(Function) } },
       },
       defaultRouterOptions.assistPreload,
@@ -100,7 +100,7 @@ describe('createRouter()', () => {
 
     expect(locationsMatch).toHaveBeenCalledTimes(1);
     expect(locationsMatch).toHaveBeenCalledWith(
-      'matchedLocation',
+      "matchedLocation",
       defaultRouterOptions.history.location,
       true
     );
@@ -112,18 +112,18 @@ describe('createRouter()', () => {
     );
   });
 
-  it('should call history.replace when locationsMatch returns false', () => {
+  it("should call history.replace when locationsMatch returns false", () => {
     mockLocationsMatch.mockReturnValueOnce(false);
 
     createRouter(defaultRouterOptions);
 
     expect(defaultRouterOptions.history.replace).toHaveBeenCalledTimes(1);
     expect(defaultRouterOptions.history.replace).toHaveBeenCalledWith(
-      'matchedLocation'
+      "matchedLocation"
     );
   });
 
-  it('should return the expected router context', () => {
+  it("should return the expected router context", () => {
     const router = createRouter(defaultRouterOptions);
 
     expect(router).toEqual({
@@ -147,61 +147,61 @@ describe('createRouter()', () => {
     });
   });
 
-  it('should have expected behavior from returned `get` function', () => {
+  it("should have expected behavior from returned `get` function", () => {
     const router = createRouter(defaultRouterOptions);
 
     expect(router.get()).toEqual({
       component: { load: expect.any(Function) },
-      location: 'preparedLocation',
+      location: "preparedLocation",
     });
   });
 
-  it('should have expected behavior from returned `isActive` function', () => {
+  it("should have expected behavior from returned `isActive` function", () => {
     const router = createRouter(defaultRouterOptions);
 
     mockLocationsMatch.mockClear();
-    router.isActive('foo');
+    router.isActive("foo");
     expect(locationsMatch).toHaveBeenCalledTimes(1);
     expect(locationsMatch).toHaveBeenCalledWith(
       defaultRouterOptions.history.location,
-      'foo',
+      "foo",
       undefined
     );
 
-    router.isActive('bar', false);
+    router.isActive("bar", false);
     expect(locationsMatch).toHaveBeenCalledTimes(2);
     expect(locationsMatch).toHaveBeenCalledWith(
       defaultRouterOptions.history.location,
-      'bar',
+      "bar",
       false
     );
 
-    router.isActive('baz', true);
+    router.isActive("baz", true);
     expect(locationsMatch).toHaveBeenCalledTimes(3);
     expect(locationsMatch).toHaveBeenCalledWith(
       defaultRouterOptions.history.location,
-      'baz',
+      "baz",
       true
     );
   });
 
-  it('should have expected behavior from returned `preloadCode` function', () => {
+  it("should have expected behavior from returned `preloadCode` function", () => {
     const router = createRouter(defaultRouterOptions);
 
-    router.preloadCode('baz');
+    router.preloadCode("baz");
 
     expect(matchRoutes).toHaveBeenCalledTimes(2);
-    expect(matchRoutes).toHaveBeenCalledWith('routesEntryMap', {
-      hash: '',
-      pathname: 'baz',
-      search: '',
+    expect(matchRoutes).toHaveBeenCalledWith("routesEntryMap", {
+      hash: "",
+      pathname: "baz",
+      search: "",
     });
 
     expect(componentLoadMock).toHaveBeenCalledTimes(1);
     expect(componentLoadMock).toHaveBeenCalledWith();
   });
 
-  it('should have expected behavior from returned `subscribe` function', () => {
+  it("should have expected behavior from returned `subscribe` function", () => {
     const history = createMemoryHistory<State>();
     const router = createRouter({ ...defaultRouterOptions, history });
 
@@ -217,21 +217,21 @@ describe('createRouter()', () => {
 
     expect(dispose).toEqual(expect.any(Function));
 
-    history.push('/testing');
+    history.push("/testing");
 
     expect(mockSubscribeHistoryFunction).toHaveBeenCalledTimes(1);
     expect(mockSubscribeHistoryFunction).toHaveBeenCalledWith(
       {
         component: { load: expect.any(Function) },
-        location: 'preparedLocation',
+        location: "preparedLocation",
       },
       {
-        action: 'PUSH',
+        action: "PUSH",
         location: {
-          hash: '',
+          hash: "",
           key: expect.any(String),
-          pathname: '/testing',
-          search: '',
+          pathname: "/testing",
+          search: "",
           state: undefined,
         },
       }
@@ -240,24 +240,24 @@ describe('createRouter()', () => {
     expect(mockSubscribeTransitionFunction).not.toHaveBeenCalled();
 
     router.routeTransitionCompleted({
-      action: 'PUSH',
+      action: "PUSH",
       location: {
-        hash: '',
-        key: 'testKey',
-        pathname: '/testing',
-        search: '',
+        hash: "",
+        key: "testKey",
+        pathname: "/testing",
+        search: "",
         state: undefined,
       },
     });
 
     expect(mockSubscribeTransitionFunction).toHaveBeenCalledTimes(1);
     expect(mockSubscribeTransitionFunction).toHaveBeenCalledWith({
-      action: 'PUSH',
+      action: "PUSH",
       location: {
-        hash: '',
-        key: 'testKey',
-        pathname: '/testing',
-        search: '',
+        hash: "",
+        key: "testKey",
+        pathname: "/testing",
+        search: "",
         state: undefined,
       },
     });
@@ -267,29 +267,29 @@ describe('createRouter()', () => {
     mockSubscribeHistoryFunction.mockClear();
     mockLocationsMatch.mockReturnValueOnce(false);
 
-    history.push('/testing2');
+    history.push("/testing2");
 
     expect(mockSubscribeHistoryFunction).not.toHaveBeenCalled();
   });
 
-  it('should have expected behavior from returned `warmRoute` function', () => {
+  it("should have expected behavior from returned `warmRoute` function", () => {
     const router = createRouter(defaultRouterOptions);
 
     mockPrepareMatch.mockClear();
 
-    router.warmRoute('testWarmRoute');
+    router.warmRoute("testWarmRoute");
 
     expect(matchRoutes).toHaveBeenCalledTimes(2);
-    expect(matchRoutes).toHaveBeenCalledWith('routesEntryMap', {
-      hash: '',
-      pathname: 'testWarmRoute',
-      search: '',
+    expect(matchRoutes).toHaveBeenCalledWith("routesEntryMap", {
+      hash: "",
+      pathname: "testWarmRoute",
+      search: "",
     });
 
     expect(prepareMatch).toHaveBeenCalledTimes(1);
     expect(prepareMatch).toHaveBeenCalledWith(
       {
-        location: 'matchedLocation',
+        location: "matchedLocation",
         route: { component: { load: expect.any(Function) } },
       },
       defaultRouterOptions.assistPreload,
@@ -297,10 +297,10 @@ describe('createRouter()', () => {
     );
   });
 
-  describe('history listener logic', () => {
-    it('should do nothing when locationsMatch returns true', () => {
+  describe("history listener logic", () => {
+    it("should do nothing when locationsMatch returns true", () => {
       const history = createMemoryHistory<State>();
-      jest.spyOn(history, 'replace');
+      jest.spyOn(history, "replace");
 
       const router = createRouter({ ...defaultRouterOptions, history });
 
@@ -308,16 +308,16 @@ describe('createRouter()', () => {
 
       router.subscribe({ onTransitionStart: mockSubscribeFunction });
 
-      history.push('/firstLocation');
+      history.push("/firstLocation");
 
       expect(locationsMatch).toHaveBeenCalledTimes(2);
       expect(locationsMatch).toHaveBeenCalledWith(
-        'preparedLocation',
+        "preparedLocation",
         {
-          hash: '',
+          hash: "",
           key: expect.any(String),
-          pathname: '/firstLocation',
-          search: '',
+          pathname: "/firstLocation",
+          search: "",
           state: undefined,
         },
         true
@@ -330,9 +330,9 @@ describe('createRouter()', () => {
       expect(mockSubscribeFunction).not.toHaveBeenCalled();
     });
 
-    it('should act as expected when first locationsMatch returns false (new location)', () => {
+    it("should act as expected when first locationsMatch returns false (new location)", () => {
       const history = createMemoryHistory<State>();
-      jest.spyOn(history, 'replace');
+      jest.spyOn(history, "replace");
 
       const router = createRouter({ ...defaultRouterOptions, history });
 
@@ -341,35 +341,35 @@ describe('createRouter()', () => {
 
       mockLocationsMatch.mockReturnValueOnce(false);
 
-      history.push('/newLocation');
+      history.push("/newLocation");
 
       expect(locationsMatch).toHaveBeenCalledTimes(3);
       expect(locationsMatch).toHaveBeenNthCalledWith(
         2,
-        'preparedLocation',
+        "preparedLocation",
         {
-          hash: '',
+          hash: "",
           key: expect.any(String),
-          pathname: '/newLocation',
-          search: '',
+          pathname: "/newLocation",
+          search: "",
           state: undefined,
         },
         true
       );
 
       expect(matchRoutes).toHaveBeenCalledTimes(2);
-      expect(matchRoutes).toHaveBeenCalledWith('routesEntryMap', {
-        hash: '',
+      expect(matchRoutes).toHaveBeenCalledWith("routesEntryMap", {
+        hash: "",
         key: expect.any(String),
-        pathname: '/newLocation',
-        search: '',
+        pathname: "/newLocation",
+        search: "",
         state: undefined,
       });
 
       expect(prepareMatch).toHaveBeenCalledTimes(2);
       expect(prepareMatch).toHaveBeenCalledWith(
         {
-          location: 'matchedLocation',
+          location: "matchedLocation",
           route: { component: { load: expect.any(Function) } },
         },
         defaultRouterOptions.assistPreload,
@@ -382,24 +382,24 @@ describe('createRouter()', () => {
       expect(mockSubscribeFunction).toHaveBeenCalledWith(
         {
           component: { load: expect.any(Function) },
-          location: 'preparedLocation',
+          location: "preparedLocation",
         },
         {
-          action: 'PUSH',
+          action: "PUSH",
           location: {
-            hash: '',
+            hash: "",
             key: expect.any(String),
-            pathname: '/newLocation',
-            search: '',
+            pathname: "/newLocation",
+            search: "",
             state: undefined,
           },
         }
       );
     });
 
-    it('should act as expected when second locationsMatch returns false (replaced location)', () => {
+    it("should act as expected when second locationsMatch returns false (replaced location)", () => {
       const history = createMemoryHistory<State>();
-      jest.spyOn(history, 'replace');
+      jest.spyOn(history, "replace");
 
       const router = createRouter({ ...defaultRouterOptions, history });
 
@@ -409,7 +409,7 @@ describe('createRouter()', () => {
       mockLocationsMatch.mockReturnValueOnce(false).mockReturnValueOnce(false);
       expect(locationsMatch).toHaveBeenCalledTimes(1);
 
-      history.push('/newLocation');
+      history.push("/newLocation");
 
       // First time is init check pre history.listen calls (return is true)
       // Second time is first call in history.listen (return is false)
@@ -423,35 +423,35 @@ describe('createRouter()', () => {
       expect(prepareMatch).toHaveBeenCalledTimes(2);
 
       expect(history.replace).toHaveBeenCalledTimes(1);
-      expect(history.replace).toHaveBeenCalledWith('matchedLocation');
+      expect(history.replace).toHaveBeenCalledWith("matchedLocation");
 
       expect(mockSubscribeFunction).not.toHaveBeenCalled();
     });
 
-    it('should update the currentEntry with a new location', () => {
+    it("should update the currentEntry with a new location", () => {
       const history = createMemoryHistory<State>();
       const router = createRouter({ ...defaultRouterOptions, history });
 
       expect(router.get()).toEqual({
         component: { load: expect.any(Function) },
-        location: 'preparedLocation',
+        location: "preparedLocation",
       });
 
       mockLocationsMatch.mockReturnValueOnce(false);
       mockPrepareMatch.mockReturnValueOnce({
         component: { load: jest.fn() },
-        location: 'newLocation',
+        location: "newLocation",
       });
 
-      history.push('newLocation');
+      history.push("newLocation");
 
       expect(router.get()).toEqual({
         component: { load: expect.any(Function) },
-        location: 'newLocation',
+        location: "newLocation",
       });
     });
 
-    it('should notify all subscribers of changes', () => {
+    it("should notify all subscribers of changes", () => {
       const history = createMemoryHistory<State>();
       const router = createRouter({ ...defaultRouterOptions, history });
 
@@ -478,21 +478,21 @@ describe('createRouter()', () => {
 
       mockLocationsMatch.mockReturnValueOnce(false);
 
-      history.push('newLocation');
+      history.push("newLocation");
 
       expect(firstHistorySubscriber).toHaveBeenCalledTimes(1);
       expect(firstHistorySubscriber).toHaveBeenCalledWith(
         {
           component: { load: expect.any(Function) },
-          location: 'preparedLocation',
+          location: "preparedLocation",
         },
         {
-          action: 'PUSH',
+          action: "PUSH",
           location: {
-            hash: '',
+            hash: "",
             key: expect.any(String),
-            pathname: '/newLocation',
-            search: '',
+            pathname: "/newLocation",
+            search: "",
             state: undefined,
           },
         }
@@ -503,15 +503,15 @@ describe('createRouter()', () => {
       expect(secondHistorySubscriber).toHaveBeenCalledWith(
         {
           component: { load: expect.any(Function) },
-          location: 'preparedLocation',
+          location: "preparedLocation",
         },
         {
-          action: 'PUSH',
+          action: "PUSH",
           location: {
-            hash: '',
+            hash: "",
             key: expect.any(String),
-            pathname: '/newLocation',
-            search: '',
+            pathname: "/newLocation",
+            search: "",
             state: undefined,
           },
         }
@@ -522,15 +522,15 @@ describe('createRouter()', () => {
       expect(thirdHistorySubscriber).toHaveBeenCalledWith(
         {
           component: { load: expect.any(Function) },
-          location: 'preparedLocation',
+          location: "preparedLocation",
         },
         {
-          action: 'PUSH',
+          action: "PUSH",
           location: {
-            hash: '',
+            hash: "",
             key: expect.any(String),
-            pathname: '/newLocation',
-            search: '',
+            pathname: "/newLocation",
+            search: "",
             state: undefined,
           },
         }
@@ -538,48 +538,48 @@ describe('createRouter()', () => {
       expect(firstTransitionSubscriber).not.toHaveBeenCalled();
 
       router.routeTransitionCompleted({
-        action: 'PUSH',
+        action: "PUSH",
         location: {
-          hash: '',
-          key: 'newKey',
-          pathname: 'newLocation',
-          search: '',
+          hash: "",
+          key: "newKey",
+          pathname: "newLocation",
+          search: "",
           state: undefined,
         },
       });
 
       expect(firstTransitionSubscriber).toHaveBeenCalledTimes(1);
       expect(firstTransitionSubscriber).toHaveBeenCalledWith({
-        action: 'PUSH',
+        action: "PUSH",
         location: {
-          hash: '',
-          key: 'newKey',
-          pathname: 'newLocation',
-          search: '',
+          hash: "",
+          key: "newKey",
+          pathname: "newLocation",
+          search: "",
           state: undefined,
         },
       });
 
       expect(secondTransitionSubscriber).toHaveBeenCalledTimes(1);
       expect(secondTransitionSubscriber).toHaveBeenCalledWith({
-        action: 'PUSH',
+        action: "PUSH",
         location: {
-          hash: '',
-          key: 'newKey',
-          pathname: 'newLocation',
-          search: '',
+          hash: "",
+          key: "newKey",
+          pathname: "newLocation",
+          search: "",
           state: undefined,
         },
       });
 
       expect(thirdTransitionSubscriber).toHaveBeenCalledTimes(1);
       expect(thirdTransitionSubscriber).toHaveBeenCalledWith({
-        action: 'PUSH',
+        action: "PUSH",
         location: {
-          hash: '',
-          key: 'newKey',
-          pathname: 'newLocation',
-          search: '',
+          hash: "",
+          key: "newKey",
+          pathname: "newLocation",
+          search: "",
           state: undefined,
         },
       });

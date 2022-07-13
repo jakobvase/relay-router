@@ -1,26 +1,26 @@
-import { createBrowserHistory } from 'history';
-import type { RoutesConfig } from '../../types';
-import { createBrowserRouter } from '../createBrowserRouter';
-import { createRouter } from '../createRouter';
+import { createBrowserHistory } from "history";
+import type { RoutesConfig } from "../../types";
+import { createBrowserRouter } from "../createBrowserRouter";
+import { createRouter } from "../createRouter";
 
-jest.mock('history', () => ({
-  createBrowserHistory: jest.fn(() => ({ type: 'BrowserHistory' })),
+jest.mock("history", () => ({
+  createBrowserHistory: jest.fn(() => ({ type: "BrowserHistory" })),
 }));
-jest.mock('../createRouter');
+jest.mock("../createRouter");
 
-describe('createBrowserRouter', () => {
+describe("createBrowserRouter", () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it('throws when called with no arguments', () => {
+  it("throws when called with no arguments", () => {
     expect(() => {
       // @ts-expect-error - Verifying throw of invalid arguments.
       createBrowserRouter();
     }).toThrow();
   });
 
-  it('calls createBrowserHistory with history options, and createRouter with routes and history', () => {
+  it("calls createBrowserHistory with history options, and createRouter with routes and history", () => {
     const routes = [{}];
     createBrowserRouter(
       {
@@ -29,18 +29,18 @@ describe('createBrowserRouter', () => {
         awaitPreload: false,
         routes: routes as unknown as RoutesConfig,
       },
-      { basename: '/' }
+      { basename: "/" }
     );
 
     expect(createBrowserHistory).toHaveBeenCalledTimes(1);
-    expect(createBrowserHistory).toHaveBeenCalledWith({ basename: '/' });
+    expect(createBrowserHistory).toHaveBeenCalledWith({ basename: "/" });
     expect(createRouter).toHaveBeenCalledTimes(1);
     expect(createRouter).toHaveBeenCalledWith({
       assistPreload: false,
       awaitComponent: false,
       awaitPreload: false,
       history: {
-        type: 'BrowserHistory',
+        type: "BrowserHistory",
       },
       routes,
     });

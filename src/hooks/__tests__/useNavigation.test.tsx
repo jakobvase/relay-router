@@ -1,16 +1,16 @@
-import { renderHook } from '@testing-library/react-hooks';
-import type { ReactNode } from 'react';
-import { RouterProvider } from '../../components/RouterProvider';
-import type { RouterContextProps } from '../../types';
-import { useNavigation } from '../useNavigation';
+import { renderHook } from "@testing-library/react-hooks";
+import type { ReactNode } from "react";
+import { RouterProvider } from "../../components/RouterProvider";
+import type { RouterContextProps } from "../../types";
+import { useNavigation } from "../useNavigation";
 
 const defaultMockHistory = {
-  block: 'mockHistoryBlock',
-  go: 'mockHistoryGo',
-  goBack: 'mockHistoryBack',
-  goForward: 'mockHistoryForward',
-  push: 'mockHistoryPush',
-  replace: 'mockHistoryReplace',
+  block: "mockHistoryBlock",
+  go: "mockHistoryGo",
+  goBack: "mockHistoryBack",
+  goForward: "mockHistoryForward",
+  push: "mockHistoryPush",
+  replace: "mockHistoryReplace",
 };
 
 const ContextWrapper = ({
@@ -33,31 +33,31 @@ const ContextWrapper = ({
   );
 };
 
-describe('useNavigation()', () => {
-  it('should throw an error when called outside of provider', () => {
+describe("useNavigation()", () => {
+  it("should throw an error when called outside of provider", () => {
     const { result } = renderHook(() => useNavigation());
 
     expect(result.error?.message).toBe(
-      '`useNavigation` can not be used outside of `RouterProvider`.'
+      "`useNavigation` can not be used outside of `RouterProvider`."
     );
   });
 
-  it('should return expected router object', () => {
+  it("should return expected router object", () => {
     const { result } = renderHook(() => useNavigation(), {
       wrapper: ContextWrapper,
     });
 
     expect(result.current).toEqual({
-      back: 'mockHistoryBack',
-      block: 'mockHistoryBlock',
-      forward: 'mockHistoryForward',
-      go: 'mockHistoryGo',
-      push: 'mockHistoryPush',
-      replace: 'mockHistoryReplace',
+      back: "mockHistoryBack",
+      block: "mockHistoryBlock",
+      forward: "mockHistoryForward",
+      go: "mockHistoryGo",
+      push: "mockHistoryPush",
+      replace: "mockHistoryReplace",
     });
   });
 
-  it('should return memoized function', () => {
+  it("should return memoized function", () => {
     const { result, rerender } = renderHook(() => useNavigation(), {
       wrapper: ContextWrapper,
     });
@@ -69,7 +69,7 @@ describe('useNavigation()', () => {
     expect(firstResult).toEqual(result.current);
   });
 
-  it('should mutate navigation if history object changes', () => {
+  it("should mutate navigation if history object changes", () => {
     const { result, rerender } = renderHook(() => useNavigation(), {
       wrapper: ContextWrapper,
     });
@@ -79,7 +79,7 @@ describe('useNavigation()', () => {
     rerender({
       history: {
         ...defaultMockHistory,
-        block: 'foo',
+        block: "foo",
       },
     });
 

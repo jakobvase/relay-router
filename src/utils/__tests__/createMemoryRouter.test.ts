@@ -1,28 +1,28 @@
-import { createMemoryHistory } from 'history';
-import type { RoutesConfig } from '../../types';
-import { createMemoryRouter } from '../createMemoryRouter';
-import { createRouter } from '../createRouter';
+import { createMemoryHistory } from "history";
+import type { RoutesConfig } from "../../types";
+import { createMemoryRouter } from "../createMemoryRouter";
+import { createRouter } from "../createRouter";
 
-jest.mock('history', () => ({
+jest.mock("history", () => ({
   createMemoryHistory: jest.fn(() => ({
-    type: 'MemoryHistory',
+    type: "MemoryHistory",
   })),
 }));
-jest.mock('../createRouter');
+jest.mock("../createRouter");
 
-describe('createMemoryRouter', () => {
+describe("createMemoryRouter", () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it('throws when called with no arguments', () => {
+  it("throws when called with no arguments", () => {
     expect(() => {
       // @ts-expect-error - Verifying throw of invalid arguments.
       createMemoryRouter();
     }).toThrow();
   });
 
-  it('calls createMemoryHistory with history options, and createRouter with routes and history', () => {
+  it("calls createMemoryHistory with history options, and createRouter with routes and history", () => {
     const routes = [{}];
     createMemoryRouter(
       {
@@ -32,14 +32,14 @@ describe('createMemoryRouter', () => {
         routes: routes as unknown as RoutesConfig,
       },
       {
-        initialEntries: ['/'],
+        initialEntries: ["/"],
         initialIndex: 0,
       }
     );
 
     expect(createMemoryHistory).toHaveBeenCalledTimes(1);
     expect(createMemoryHistory).toHaveBeenCalledWith({
-      initialEntries: ['/'],
+      initialEntries: ["/"],
       initialIndex: 0,
     });
     expect(createRouter).toHaveBeenCalledTimes(1);
@@ -48,7 +48,7 @@ describe('createMemoryRouter', () => {
       awaitComponent: false,
       awaitPreload: false,
       history: {
-        type: 'MemoryHistory',
+        type: "MemoryHistory",
       },
       routes,
     });

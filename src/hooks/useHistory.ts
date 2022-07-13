@@ -1,11 +1,11 @@
-import type { History } from 'history';
-import { useContext } from 'react';
-import { isRouterContext, RouterContext } from '../context/RouterContext';
-import type { RouterContextProps, State } from '../types';
+import type { History } from "history";
+import { useContext } from "react";
+import { isRouterContext, RouterContext } from "../context/RouterContext";
+import type { RouterContextProps, State } from "../types";
 
 type UseHistory<S extends State> = Pick<
   History<S>,
-  'action' | 'listen' | 'location'
+  "action" | "listen" | "location"
 >;
 
 export const useHistory = <S extends State = State>(): UseHistory<S> => {
@@ -13,7 +13,7 @@ export const useHistory = <S extends State = State>(): UseHistory<S> => {
 
   if (!isRouterContext(context)) {
     throw new Error(
-      '`useHistory` can not be used outside of `RouterProvider`.'
+      "`useHistory` can not be used outside of `RouterProvider`."
     );
   }
 

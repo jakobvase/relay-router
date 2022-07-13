@@ -1,4 +1,4 @@
-import { getCanonicalPath } from './getCanonicalPath';
+import { getCanonicalPath } from "./getCanonicalPath";
 
 export const matchRegexRoute = <Path extends string>(
   routePath: Path,
@@ -10,14 +10,14 @@ export const matchRegexRoute = <Path extends string>(
 
   const matcherPattern = `^(${routePath
     // Escape all special regex characters
-    .replace(/[$()*+./?[\\\]^{|}-]/g, '\\$&')
+    .replace(/[$()*+./?[\\\]^{|}-]/g, "\\$&")
     // Wildcard matching
-    .replace(/\\\*$/, '.*')
+    .replace(/\\\*$/, ".*")
     // Match and set keys for named parameters
-    .replace(/:(\w+)|(.\*)/g, (_, parameterKey = '$rest') => {
+    .replace(/:(\w+)|(.\*)/g, (_, parameterKey = "$rest") => {
       parametersKeys.push(parameterKey);
 
-      return `([^${parameterKey === '$rest' ? ':(w+)|(.*)' : '\\/'}]+)`;
+      return `([^${parameterKey === "$rest" ? ":(w+)|(.*)" : "\\/"}]+)`;
     })})\\/?$`;
 
   const matcher = new RegExp(matcherPattern);
@@ -37,7 +37,7 @@ export const matchRegexRoute = <Path extends string>(
           `Path '${routePath}' had multiple route parameters of same name '${parameterKey}'.`
         );
       } else {
-        collection[parameterKey] = decodeURIComponent(value ?? '');
+        collection[parameterKey] = decodeURIComponent(value ?? "");
       }
 
       return collection;

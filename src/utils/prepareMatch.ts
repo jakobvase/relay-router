@@ -9,9 +9,9 @@ import type {
   PreparedEntryWithAssist,
   PreparedEntryWithoutAssist,
   UnassistedPreloadData,
-} from '../types';
-import { SuspenseResource } from './SuspenseResource';
-import { sortAndStringifySearchParameters } from './sortAndStringifySearchParameters';
+} from "../types";
+import { SuspenseResource } from "./SuspenseResource";
+import { sortAndStringifySearchParameters } from "./sortAndStringifySearchParameters";
 
 /**
  * Holds cached value for last prepared match;
@@ -24,15 +24,15 @@ const lastPreparedEntry: {
   pathname: string;
   value: PreparedEntryWithAssist | null;
 } = {
-  parametersString: '',
-  pathname: '',
+  parametersString: "",
+  pathname: "",
   value: null,
 };
 
 const isPreloadFunction = (
   preload: AssistedPreloadConfig | AssistedPreloadFunction
 ): preload is AssistedPreloadFunction => {
-  return typeof preload === 'function';
+  return typeof preload === "function";
 };
 
 export const isEntryPreloadedMap = (
@@ -159,7 +159,7 @@ function prepareMatch(
 
     if (preloaded) {
       // Cache the prepared match so we can reuse it for next match if the route is the same.
-      lastPreparedEntry.pathname = location.pathname ?? '';
+      lastPreparedEntry.pathname = location.pathname ?? "";
       lastPreparedEntry.parametersString =
         sortAndStringifySearchParameters(params);
       lastPreparedEntry.value = preparedMatchWithAssist;

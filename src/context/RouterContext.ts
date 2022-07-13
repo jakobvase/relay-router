@@ -1,8 +1,8 @@
-import { createContext } from 'react';
-import type { RouterContextProps } from '../types';
+import { createContext } from "react";
+import type { RouterContextProps } from "../types";
 
 const defaultFunction = () => {
-  throw new Error('RouterContext was called outside of RouterProvider.');
+  throw new Error("RouterContext was called outside of RouterProvider.");
 };
 
 export const isRouterContext = (
@@ -17,7 +17,7 @@ const defaultContext: RouterContextProps = {
   get: defaultFunction,
   getCurrentRouteKey: defaultFunction,
   history: {
-    action: 'PUSH',
+    action: "PUSH",
     block: defaultFunction,
     createHref: defaultFunction,
     go: defaultFunction,
@@ -26,10 +26,10 @@ const defaultContext: RouterContextProps = {
     length: 0,
     listen: defaultFunction,
     location: {
-      hash: '',
-      key: '',
-      pathname: '',
-      search: '',
+      hash: "",
+      key: "",
+      pathname: "",
+      search: "",
       state: undefined,
     },
     push: defaultFunction,

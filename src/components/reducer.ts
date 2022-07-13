@@ -1,4 +1,4 @@
-import type { PreparedRouteEntry, Update } from '../types';
+import type { PreparedRouteEntry, Update } from "../types";
 
 export interface RouteRendererState {
   historyUpdate: Update;
@@ -12,22 +12,22 @@ type RouteRendererAction =
         historyUpdate: Update;
         routeEntry: PreparedRouteEntry;
       };
-      type: 'FINISH_ROUTE_TRANSITION';
+      type: "FINISH_ROUTE_TRANSITION";
     }
-  | { type: 'START_ROUTE_TRANSITION' };
+  | { type: "START_ROUTE_TRANSITION" };
 
 export const reducer = (
   state: RouteRendererState,
   action: RouteRendererAction
 ) => {
   switch (action.type) {
-    case 'START_ROUTE_TRANSITION': {
+    case "START_ROUTE_TRANSITION": {
       return {
         ...state,
         isPendingTransition: true,
       };
     }
-    case 'FINISH_ROUTE_TRANSITION': {
+    case "FINISH_ROUTE_TRANSITION": {
       return {
         ...state,
         isPendingTransition: false,

@@ -1,6 +1,6 @@
-import { useContext, useEffect } from 'react';
-import { RouterContext } from '../context/RouterContext';
-import type { State, To } from '../types';
+import { useContext, useEffect } from "react";
+import { RouterContext } from "../context/RouterContext";
+import type { State, To } from "../types";
 
 interface RedirectProps<S extends State = State> {
   exact?: boolean;
@@ -24,7 +24,7 @@ export const Redirect = <S extends State>({
 
   useEffect(() => {
     if (rendererInitialized && !isActive(to, exact)) {
-      const replaceMethod = push ? 'push' : 'replace';
+      const replaceMethod = push ? "push" : "replace";
 
       history[replaceMethod](to);
     }
@@ -33,4 +33,4 @@ export const Redirect = <S extends State>({
   return null;
 };
 
-Redirect.displayName = 'Redirect';
+Redirect.displayName = "Redirect";

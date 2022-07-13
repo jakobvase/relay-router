@@ -1,12 +1,12 @@
-import { render, screen } from '@testing-library/react';
-import { RouterContext } from '../../context/RouterContext';
-import type { RouterProps } from '../../types';
-import { RouterProvider } from '../RouterProvider';
-import '@testing-library/jest-dom';
+import { render, screen } from "@testing-library/react";
+import { RouterContext } from "../../context/RouterContext";
+import type { RouterProps } from "../../types";
+import { RouterProvider } from "../RouterProvider";
+import "@testing-library/jest-dom";
 
-describe('<RouterProvider />', () => {
-  it('should render children with access to router context', () => {
-    const router = { mockedRouter: 'mockedRouter' } as unknown as RouterProps;
+describe("<RouterProvider />", () => {
+  it("should render children with access to router context", () => {
+    const router = { mockedRouter: "mockedRouter" } as unknown as RouterProps;
 
     render(
       <RouterProvider router={router}>

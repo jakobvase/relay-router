@@ -1,7 +1,7 @@
-import type { PartialPath } from '../types';
-import { pathStringToPath } from './pathStringToPath';
-import { queryStringToObject } from './queryStringToObject';
-import { sortAndStringifySearchParameters } from './sortAndStringifySearchParameters';
+import type { PartialPath } from "../types";
+import { pathStringToPath } from "./pathStringToPath";
+import { queryStringToObject } from "./queryStringToObject";
+import { sortAndStringifySearchParameters } from "./sortAndStringifySearchParameters";
 
 export const locationsMatch = (
   leftLocation: PartialPath | string,
@@ -17,10 +17,10 @@ export const locationsMatch = (
 
   if (exact) {
     const leftLocationSearch = sortAndStringifySearchParameters(
-      queryStringToObject(leftLocationFragment.search ?? '')
+      queryStringToObject(leftLocationFragment.search ?? "")
     );
     const rightLocationSearch = sortAndStringifySearchParameters(
-      queryStringToObject(rightLocationFragment.search ?? '')
+      queryStringToObject(rightLocationFragment.search ?? "")
     );
 
     return (

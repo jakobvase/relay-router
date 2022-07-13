@@ -1,9 +1,9 @@
-import { useCallback, useContext, useEffect } from 'react';
-import type { RouterContextProps } from '..';
-import { RouterContext } from '../context/RouterContext';
-import type { Update } from '../types';
+import { useCallback, useContext, useEffect } from "react";
+import type { RouterContextProps } from "..";
+import { RouterContext } from "../context/RouterContext";
+import type { Update } from "../types";
 
-const DEFAULT_PROMPT_MESSAGE = 'Are you sure you want to leave without saving?';
+const DEFAULT_PROMPT_MESSAGE = "Are you sure you want to leave without saving?";
 
 interface UseBlockTransitionOptions {
   message?: string;
@@ -45,7 +45,7 @@ export const useBlockTransition = ({
 
   const resolvePrompt = useCallback(
     (update?: Update) =>
-      typeof toggle === 'function' ? toggle(update) : toggle,
+      typeof toggle === "function" ? toggle(update) : toggle,
     [toggle]
   );
 
@@ -95,12 +95,12 @@ export const useBlockTransition = ({
     const unblock = block(handleHistoryBlock);
 
     if (window && unload) {
-      window.addEventListener('beforeunload', handleUnload);
+      window.addEventListener("beforeunload", handleUnload);
     }
 
     return () => {
       if (window && unload) {
-        window.removeEventListener('beforeunload', handleUnload);
+        window.removeEventListener("beforeunload", handleUnload);
       }
 
       // ensure the block is cleared

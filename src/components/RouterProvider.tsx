@@ -1,7 +1,7 @@
-import type { ReactNode } from 'react';
-import { useState } from 'react';
-import { RouterContext } from '../context/RouterContext';
-import type { RouterProps } from '../types';
+import type { ReactNode } from "react";
+import { useState } from "react";
+import { RouterContext } from "../context/RouterContext";
+import type { RouterProps } from "../types";
 
 export interface RouterProviderProps {
   children: ReactNode;
@@ -20,4 +20,4 @@ export const RouterProvider = ({ children, router }: RouterProviderProps) => {
   );
 };
 
-RouterProvider.displayName = 'RouterProvider';
+RouterProvider.displayName = "RouterProvider";

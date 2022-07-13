@@ -4,10 +4,10 @@ import type {
   KeyboardEvent,
   MouseEvent,
   Ref,
-} from 'react';
-import { useContext, forwardRef, useCallback } from 'react';
-import { RouterContext } from '../context/RouterContext';
-import type { State, To } from '../types';
+} from "react";
+import { useContext, forwardRef, useCallback } from "react";
+import { RouterContext } from "../context/RouterContext";
+import type { State, To } from "../types";
 
 /**
  * The number representing the primary mouse button in a MouseEvent.button.
@@ -29,15 +29,15 @@ const shouldNavigate = (event: MouseEvent<HTMLAnchorElement>): boolean => {
     // We only want to perform an action on primary mouse clicks.
     event.button === MAIN_MOUSE_BUTTON &&
     // Let browser handle links with targets other than _self.
-    (!event.currentTarget.target || event.currentTarget.target === '_self') &&
+    (!event.currentTarget.target || event.currentTarget.target === "_self") &&
     // Let browser handle new window/tab, download and context menu events.
     !isModifiedEvent(event)
   );
 };
 
 export type LinkProps<S extends State = State> = Omit<
-  ComponentPropsWithoutRef<'a'>,
-  'href'
+  ComponentPropsWithoutRef<"a">,
+  "href"
 > & {
   /**
    * The class name to use when the link is active.
@@ -62,7 +62,7 @@ export type LinkProps<S extends State = State> = Omit<
 export const Link = forwardRef(
   <S extends State>(
     {
-      activeClassName = 'is-active',
+      activeClassName = "is-active",
       children,
       className,
       exact = false,
@@ -79,7 +79,7 @@ export const Link = forwardRef(
     const { history, isActive, preloadCode, warmRoute } =
       useContext(RouterContext);
 
-    const href: string = typeof to === 'string' ? to : history.createHref(to);
+    const href: string = typeof to === "string" ? to : history.createHref(to);
 
     const toIsActive = isActive(to, exact);
 
@@ -98,7 +98,7 @@ export const Link = forwardRef(
         if (shouldNavigate(event)) {
           event.preventDefault();
 
-          const method = isActive(to, true) ? 'replace' : 'push';
+          const method = isActive(to, true) ? "replace" : "push";
 
           history[method](to);
         }
@@ -166,10 +166,10 @@ export const Link = forwardRef(
       <a
         ref={ref}
         {...props}
-        aria-current={toIsActive ? 'page' : undefined}
+        aria-current={toIsActive ? "page" : undefined}
         className={[className, toIsActive ? activeClassName : null]
           .filter(Boolean)
-          .join(' ')}
+          .join(" ")}
         href={href}
         onClick={handleOnClick}
         onFocus={handleOnFocus}
@@ -183,4 +183,4 @@ export const Link = forwardRef(
   }
 );
 
-Link.displayName = 'Link';
+Link.displayName = "Link";
